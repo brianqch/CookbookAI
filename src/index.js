@@ -1,23 +1,29 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
+import { Auth0Provider } from '@auth0/auth0-react';
 
 import App from "./routes/App";
-import NotFound from "./routes/NotFound";
 import "./index.css";
 
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <App />,
-    errorElement: <NotFound />,
-  },
-]);
+const domain = process.env.REACT_APP_AUTH0_DOMAIN;
+const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
+const secret = process.env.REACT_APP_AUTH0_SECRET;
 
-createRoot(document.getElementById("root")).render(
-  <RouterProvider router={router} />
-);
+const root = createRoot(document.getElementById("root"));
+
+root.render(
+  <React.StrictMode>
+    <Auth0Provider
+      domain={domain}
+      clientId={clientId}
+      secret={secret}
+      authorizationParams={{
+        redirect_uri: window.location.origin
+    }}
+    >
+
+      <App/>
+    </Auth0Provider>
+  </React.StrictMode>
+)
