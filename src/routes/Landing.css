@@ -74,3 +74,38 @@
     transition: color 0.5s cubic-bezier(0.23, 1, 0.320, 1);
 }
 
+.howFrames {
+    display: grid;
+    align-items: center;
+    grid-template-columns: repeat(auto-fit, minmax(24rem, 1fr));
+    margin-top: 5rem;
+    justify-items: center;
+}
+
+.howFrameImage {
+    width: 24rem;
+    height: 25rem;
+    flex-shrink: 0;
+    border-radius: 20px;
+    border: 1px solid #B3b3b3;
+    background: #FFF;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    align-self: center;
+}
+
+.howFrameCaption {
+    display: flex;
+    width: 24rem;
+    height: 4.2rem;
+    flex-direction: column;
+    flex-shrink: 0;
+    color: #393939;
+    text-align: center;
+    font-size: 1.5rem;
+    font-family: 'Inter';
+    font-weight: 700;
+    text-shadow: -0.5px 0.5px, 0.5px 0.5px, 0.5px 0.5px;
+    letter-spacing:1px;
+    align-self: center;
+    margin-bottom: 5rem;
+}

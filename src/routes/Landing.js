@@ -19,6 +19,26 @@ function Landing() {
                 </div>
                 <div className="howContainer">
                     <h1>How it works</h1>
+                    <div className="howFrames">
+                        <div className="howFrame">
+                            <div className="howFrameImage"></div>
+                            <div className="howFrameCaption">
+                                <p>Just put in your ingredients and time you have to cook.</p>
+                            </div>
+                        </div>
+                        <div className="howFrame">
+                            <div className="howFrameImage"></div>
+                            <div className="howFrameCaption"> 
+                            <p>Let the AI do its work!</p>
+                            </div>
+                        </div>
+                        <div className="howFrame">
+                            <div className="howFrameImage"></div>
+                            <div className="howFrameCaption">
+                            <p>Keep track of past recipes and access your favorites easily.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         )
