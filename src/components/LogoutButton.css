@@ -1,0 +1,7 @@
+#logoutButton {
+    width: 2rem;
+    height: 2rem;
+    color: white;
+    filter: invert(100%);
+    cursor: pointer;
+}

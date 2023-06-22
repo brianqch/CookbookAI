@@ -1,0 +1,93 @@
+.header {
+    background-color: #F36259;
+    padding: 1rem 5rem;
+    color: white;
+    font-family: 'Inter';
+    font-weight: 900;
+    text-shadow: -0.5px 0.5px, 0.5px 0.5px, 0.5px 0.5px;
+    letter-spacing:1px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.inputContainer {
+    margin: 5rem;
+    background-color: #FFF9F8;
+    flex-shrink: 0;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    padding: 2rem 4rem;
+}
+
+.inputContainer #inputHeading1 {
+    font-family: 'Inter';
+    font-weight: 900;
+    text-shadow: -0.5px 0.5px, 0.5px 0.5px, 0.5px 0.5px;
+    letter-spacing:1px;
+}
+
+.inputContainer #inputHeading2 {
+    font-family: 'Inter';
+    font-weight: 700;
+    font-size: 20px;
+    text-shadow: -0.5px 0.5px, 0.5px 0.5px, 0.5px 0.5px;
+    letter-spacing:1px;
+    margin-top: auto;
+    padding: 0.5rem 0.5rem;
+}
+
+.inputSection {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+    gap: 2rem;
+}
+
+#mainIngredientsInputContainer {
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+}
+#mainIngredientsTextInput {
+    padding: 1rem;
+    resize: none;
+    height: 100%;
+    margin-top: 2rem;
+    border: none;
+    border-radius: 20px;
+}
+
+#headingAndButtonContainer {
+    display: flex;
+    justify-content: space-between;
+}
+
+#timerButtonContainer {
+    display: flex;
+    gap: 0.5rem;
+}
+
+#displayTime {
+    max-width: 100%;
+    display: flex;
+    border-radius: 20px;
+    background-color:white;
+    margin-top: 2rem;
+    justify-content: center;
+    align-content: center;
+}
+
+#displayTime p {
+    font-size: 64px;
+    font-family: 'Inter';
+    font-weight: bold;
+    text-shadow: -1px 1px, 1px 1px, 1px 1px;
+}
+
+#submitButton {
+    display: flex;
+    justify-content: flex-end;
+}

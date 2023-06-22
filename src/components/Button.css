@@ -1,0 +1,19 @@
+.Button {
+    background-color: #F36259;
+    border: 2px solid #F36259;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-family: 'Inter';
+    font-weight: 700;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    transition: background-color 0.5s cubic-bezier(0.23, 1, 0.320, 1);
+}
+
+.Button:hover {
+    background-color: white;
+    color: #FFC49A;
+    transition: background-color 0.5s cubic-bezier(0.23, 1, 0.320, 1);
+}
