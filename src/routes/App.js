@@ -1,19 +1,15 @@
 import React from "react";
-import { useAuth0 } from '@auth0/auth0-react';
+import { BrowserRouter as Router } from "react-router-dom";
 import "./App.css";
-import Landing from "./Landing";
-import Main from "./Main";
+import AnimatedRoutes from "./AnimatedRoutes";
 
 
 function App() {
-    const { isAuthenticated, isLoading, error } = useAuth0();
 
     return (
-       <main>
-        {!isAuthenticated && ( <Landing/> )}
-        {!error && isLoading && <p>Loading...</p>}
-        {isAuthenticated && ( <Main/> )}
-        </main>
+    <Router>
+        <AnimatedRoutes/>
+    </Router>
     )
 }
 

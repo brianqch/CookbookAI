@@ -1,5 +1,6 @@
 import React from "react";
 import { useAuth0 } from '@auth0/auth0-react';
+import { motion } from "framer-motion/dist/framer-motion";
 import "./Landing.css";
 
 
@@ -7,7 +8,13 @@ function Landing() {
     const { loginWithRedirect, isAuthenticated } = useAuth0();
     return (
         !isAuthenticated && (
-            <div>
+            <motion.div
+                className="container text-center  bg-black"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.5 }}
+            >
                 <div className="head">
                     <div className="head1">
                         <h1>Cookbook.AI</h1>
@@ -40,7 +47,7 @@ function Landing() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </motion.div>
         )
     )
 }

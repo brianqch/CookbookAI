@@ -6,7 +6,7 @@ function LogoutButton() {
     const {logout, isAuthenticated} = useAuth0();
     return (
         isAuthenticated && (
-            <img id="logoutButton" src="/assets/logoutButton.png" onClick={() => logout()}></img>
+            <img id="logoutButton" src="/assets/logoutButton.png" alt="Logout" onClick={() => logout()}></img>
         )
     )
 
