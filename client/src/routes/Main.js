@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth0 } from '@auth0/auth0-react';
 import { motion } from "framer-motion/dist/framer-motion";
 import "./Main.css";
@@ -8,6 +8,18 @@ import Button from "../components/Button";
 function Main() {
     const { user } = useAuth0();
     const [time, setTime] = useState(0);
+
+    const [backendData, setBackendData] = useState([{}]);
+
+    useEffect(() => {
+        fetch("/api").then(
+            response => response.json()
+        ).then(
+            data => {
+                setBackendData(data)
+            }
+        )
+    }, [])
 
     let incrementTime = () => {
         setTime(time + 30);
@@ -66,6 +78,7 @@ function Main() {
                     </div>
 
                 </div>
+
 
         </motion.div>
         )

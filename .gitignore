@@ -3,7 +3,8 @@
 ### Node ###
 
 # Ignore node_modules and its child directories
-node_modules/
+client/node_modules/
+server/node_modules/
 
 ### env ###
-.env
+client/.env
