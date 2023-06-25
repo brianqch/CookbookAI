@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAuth0 } from '@auth0/auth0-react';
 import { motion } from "framer-motion/dist/framer-motion";
+import axios from "axios";
 import "./Main.css";
 import LogoutButton from "../components/LogoutButton";
 import Button from "../components/Button";
@@ -8,18 +9,10 @@ import Button from "../components/Button";
 function Main() {
     const { user } = useAuth0();
     const [time, setTime] = useState(0);
-
-    const [backendData, setBackendData] = useState([{}]);
-
-    useEffect(() => {
-        fetch("/api").then(
-            response => response.json()
-        ).then(
-            data => {
-                setBackendData(data)
-            }
-        )
-    }, [])
+    const userId = user.sub;
+    const [userData, setUserData] = useState([]);
+    const favorites = ["Apples", "Oranges", "Bananas"];
+    const name = user.name;
 
     let incrementTime = () => {
         setTime(time + 30);
@@ -34,6 +27,37 @@ function Main() {
     let resetTime = () => {
         setTime(0);
     }
+
+    // useEffect(() => {
+    //     fetch('http://localhost:8000/GetUser', {
+    //         method: "get",
+    //     }).then(response => {
+    //         setUserData(response.json())
+    //     }).catch
+    // }, [])
+
+
+
+    const getFavorites = async () => {
+        const res = await axios.get('http://localhost:8000/getFavorites', {params: { "userId": userId}});
+        setUserData(res.data);
+    };
+
+    const loadOrCreateNewUser = async () => {
+        const json = JSON.stringify({ name, userId, favorites })
+        let result = await axios.post('http://localhost:8000/loadOrCreateUser', json,
+        {headers: 
+            { "Content-Type": "application/json" }
+        });
+    }
+    
+    loadOrCreateNewUser();
+
+    useEffect(() => {
+        getFavorites();
+    }, []);
+
+    console.log(userData);
 
     return (
         (
@@ -74,9 +98,15 @@ function Main() {
                     </div>
 
                     <div id="submitButton">
-                        <Button title={"-->"}/>
+                        <Button action={loadOrCreateNewUser} title={"-->"}/>
                     </div>
 
+                </div>
+                <div>
+                    <div>
+                        <h1>Favorites</h1>
+                        {userData.map(userData => <div>{userData.favorites}</div>)}
+                    </div>
                 </div>
 
 
