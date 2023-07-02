@@ -5,14 +5,50 @@ import axios from "axios";
 import "./Main.css";
 import LogoutButton from "../components/LogoutButton";
 import Button from "../components/Button";
+import Recipe from "../components/Recipe";
 
 function Main() {
     const { user } = useAuth0();
     const [time, setTime] = useState(0);
     const userId = user.sub;
     const [userData, setUserData] = useState([]);
-    const favorites = ["Apples", "Oranges", "Bananas"];
     const name = user.name;
+    const favoriteTitle = "Title test " + time.toString();
+    const favoriteText = "Text test";
+
+    const [response, setResponse] = useState("");
+
+    const [ingredients, setIngredients] = useState({value: ""});
+    const ingredientsRef = React.createRef();
+
+    const inputsHandler = (e) =>{
+        var taxt = e.target.innerHTML
+        let textArray = taxt.split(/\n/gm)
+        setIngredients( {value: e.target.value} )
+    };
+
+    let ingredientsText = ingredientsRef.current;
+    // let ingredientsTextStart = ingredientsText.selectionStart;
+    // let ingredientsTextEnd = ingredientsText.selectionEnd;
+    let selectedIngredients = ingredientsText;
+    const prompt = "Create a recipe that takes " + time.toString() + " minutes to cook with step by step instructions using the following ingredients: " + ingredients.value + ".";
+    console.log(prompt);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        axios
+            .post('http://localhost:8000/chat', {prompt})
+            .then((res) => {
+                setResponse(res.data);
+                console.log(res.data);
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+
+    };
+
 
     let incrementTime = () => {
         setTime(time + 30);
@@ -28,36 +64,44 @@ function Main() {
         setTime(0);
     }
 
-    // useEffect(() => {
-    //     fetch('http://localhost:8000/GetUser', {
-    //         method: "get",
-    //     }).then(response => {
-    //         setUserData(response.json())
-    //     }).catch
-    // }, [])
-
-
-
     const getFavorites = async () => {
         const res = await axios.get('http://localhost:8000/getFavorites', {params: { "userId": userId}});
         setUserData(res.data);
     };
 
     const loadOrCreateNewUser = async () => {
-        const json = JSON.stringify({ name, userId, favorites })
+        const json = JSON.stringify({ name, userId})
         let result = await axios.post('http://localhost:8000/loadOrCreateUser', json,
         {headers: 
             { "Content-Type": "application/json" }
         });
     }
-    
-    loadOrCreateNewUser();
+
+    const createNewFavorite = async () => {
+        const json = JSON.stringify({name, userId, favoriteTitle, favoriteText});
+        const res = await axios.post('http://localhost:8000/createFavorite', json,
+        {headers: 
+            { "Content-Type": "application/json" }
+        });
+        getFavorites();
+    }
+
+    const removeFavorite = async (id) => {
+        const res = await axios.delete('http://localhost:8000/deleteFavorite', {data: {"_id": id}}, 
+        {headers: 
+            { "Content-Type": "application/json" }
+        });
+        getFavorites();
+    }
+
 
     useEffect(() => {
+        loadOrCreateNewUser();
         getFavorites();
     }, []);
 
-    console.log(userData);
+    // console.log(userData);
+    // console.log(idToDelete);
 
     return (
         (
@@ -79,7 +123,7 @@ function Main() {
                             <div id="headingAndButtonContainer">
                                 <label id="inputHeading2"> Main Ingredients </label>
                             </div>
-                            <textarea id="mainIngredientsTextInput" name='ingredients' placeholder='ex. linguine, shrimp' />
+                            <textarea id="mainIngredientsTextInput" name='ingredients' placeholder='ex. linguine, shrimp' ref={ingredientsRef} onChange={inputsHandler} value={ingredients.value}/>
                         </div>
                         <div id="timeInputContainer">
                             <div id="headingAndButtonContainer">
@@ -98,14 +142,24 @@ function Main() {
                     </div>
 
                     <div id="submitButton">
-                        <Button action={loadOrCreateNewUser} title={"-->"}/>
+                        <Button action={handleSubmit} title={"-->"}/>
                     </div>
 
                 </div>
+
+                <Recipe res={response} userData={userData} setUserData={setUserData}/>
+
                 <div>
-                    <div>
-                        <h1>Favorites</h1>
-                        {userData.map(userData => <div>{userData.favorites}</div>)}
+                    <div className="favoritesContainer">
+                        <h2>Favorites</h2>
+                        {userData.map(userData => 
+                            <div className="favoriteCard">
+                                <h3>{userData.recipeTitle}</h3>
+                                <p>{userData.recipeText}</p>
+                                <Button action={()=> {removeFavorite(userData._id);}} title={"Remove"}/>
+                                
+                            </div>
+                        )}
                     </div>
                 </div>
 
