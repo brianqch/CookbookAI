@@ -12,23 +12,27 @@
 
 }
 
-.inputContainer {
+.inputOutputContainer {
     margin: 5rem;
     background-color: #FFF9F8;
     flex-shrink: 0;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     border-radius: 20px;
     padding: 2rem 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: fit-content;
 }
 
-.inputContainer #inputHeading1 {
+#inputHeading1 {
     font-family: 'Inter';
     font-weight: 900;
     text-shadow: -0.5px 0.5px, 0.5px 0.5px, 0.5px 0.5px;
     letter-spacing:1px;
 }
 
-.inputContainer #inputHeading2 {
+#inputHeading2 {
     font-family: 'Inter';
     font-weight: 700;
     font-size: 20px;
@@ -92,6 +96,10 @@
     justify-content: flex-end;
 }
 
+#submitButton p {
+    font-family: 'Inter';
+}
+
 .favoritesContainer {
     margin: 5rem;
 }
@@ -104,10 +112,117 @@
 }
 
 .favoriteCard {
-    margin: 5rem;
+    margin: 1rem 0rem;
     background-color: #FFF9F8;
     flex-shrink: 0;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     border-radius: 20px;
-    padding: 2rem 4rem;
+    padding: 1rem 4rem;
+    align-items: center;
+    border: 1px solid transparent;
+    transition: border 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.favoriteCard:hover {
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    transition: border 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+
+.favoriteCard #favoriteCardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.favoriteCard .editHeadingBox {
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    padding: 1rem 1rem;
+    font-family: 'Inter';
+    font-weight: 700;
+    text-shadow: -0.3px 0.3px, 0.3px 0.3px, 0.3px 0.3px;
+    font-size: larger;
+    letter-spacing:1px;
+    height: fit-content;
+    width: 80%;
+    background-color: white;
+}
+
+.favoriteCard .editRecipeTextBox {
+    margin-top: 1rem;
+    white-space: pre-wrap;
+    width: 100%;
+    font-family: 'Inter';
+    font-size: 16px;
+    resize: none;
+    overflow: hidden;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    box-sizing: border-box;
+}
+
+.favoriteCard h3 {
+    font-family: 'Inter';
+    font-weight: 700;
+    text-shadow: -0.3px 0.3px, 0.3px 0.3px, 0.3px 0.3px;
+    letter-spacing:1px;
+}
+
+.favoriteCardTextOpen {
+    font-family: 'Inter';
+    white-space: pre-wrap;
+}
+
+.favoriteCardTextClosed {
+    display: none;
+}
+
+.favoriteCard #favoriteCardDateAndMenu {
+    display: flex;
+    align-items: center;
+}
+
+.favoriteCard #dateCreatedLabel {
+    font-family: 'Inter';
+    margin-right: 1rem;
+    opacity: 50%;
+}
+
+
+.hideInputContainer {
+    display: none;
+}
+
+.loadingSymbol {
+    margin-right: 1rem;
+    line-height: 0%;
+}
+
+.notLoading {
+    display: none;
+}
+
+.showRecipeContainer {
+    transition: max-height 1.5s cubic-bezier(.17,.67,1,1.23);
+    max-height: 150vh;
+    overflow: hidden;
+    padding-bottom: 1rem;
+}
+
+.hideRecipeContainer {
+    max-height: 0;
+    overflow: hidden;
+}
+
+.saveButtonContainerHidden {
+    display: none;
+}
+
+.saveButtonContainerShown {
+    display: flex;
+    margin-top: 1rem;
+    justify-content: flex-end;
 }

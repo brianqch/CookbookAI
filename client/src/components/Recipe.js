@@ -12,13 +12,15 @@ function Recipe(props) {
     const userId = user.sub;
 
     // Response from Chat GPT OpenAI API
-    let {res, userData, setUserData} = props;
-
-    console.log(userData);
-
+    let {res, userData, setUserData, setFinishedLoading} = props;
     
     const createNewFavorite = async () => {
-        const json = JSON.stringify({name, userId, recipeTitle, recipeText});
+        const dateObject = new Date();
+        let day = dateObject.getDate();
+        let month = dateObject.getMonth() + 1;
+        let year = dateObject.getFullYear();
+        let currentDate = `${month}-${day}-${year}`;
+        const json = JSON.stringify({name, userId, recipeTitle, recipeText, currentDate});
         const res = await axios.post('http://localhost:8000/createFavorite', json,
         {headers: 
             { "Content-Type": "application/json" }
@@ -27,7 +29,8 @@ function Recipe(props) {
     }
 
     const recipeText = res.trim().toString();
-    const recipeTitle = recipeText.split("\n")[0].toString();
+    const recipeTitle = recipeText.split("\n").shift().toString();
+
 
     const getFavorites = async () => {
         const res = await axios.get('http://localhost:8000/getFavorites', {params: { "userId": userId}});
@@ -48,6 +51,7 @@ function Recipe(props) {
             </div>
             <div id="saveOrGenerateNewSection">
                 <Button action={createNewFavorite} title={"Add to favorites"}/>
+                <Button action={() => {setFinishedLoading(false)}} title={"Generate new recipe"}/>
             </div>
         </div>
     )
