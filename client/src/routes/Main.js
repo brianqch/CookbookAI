@@ -8,6 +8,7 @@ import Button from "../components/Button";
 import Recipe from "../components/Recipe";
 import SearchBar from "../components/SearchBar";
 import FavoriteCard from "../components/FavoriteCard";
+import Pantry from "../components/Pantry";
 
 function Main() {
     const { user } = useAuth0();
@@ -105,32 +106,6 @@ function Main() {
         });
     }
 
-    const saveChanges = async (objectId) => {
-        const element = document.getElementById(objectId);
-        const favCardHeader = element.children[0];
-        const recipeTitle = favCardHeader.children[0].value;
-        const favCardTextOpen = element.children[1];
-        const recipeText = favCardTextOpen.children[0].value;
-
-        const userId = objectId;
-        const json = JSON.stringify({ userId, recipeTitle, recipeText })
-
-        await axios
-            .put('http://localhost:8000/saveEdits', json,
-                {headers: 
-                    { "Content-Type": "application/json" }
-                })
-            .then(
-
-                console.log("Saved changes")
-            )
-            .catch((err) => {
-                console.error(err);
-            });
-        
-        getFavorites();
-    };
-
     useEffect(() => {
         loadOrCreateNewUser();
         getFavorites();
@@ -146,46 +121,48 @@ function Main() {
             transition={{ duration: 0.5 }}
         >
                 <div className="header"><h1>Cookbook.ai</h1> <LogoutButton/></div>
-
-                <div className="inputOutputContainer">
-                    <div className={isFinishedLoading ? "hideInputContainer" : "showInputContainer"}>
-                        <div id="inputHeading1">
-                            <h2>What are we making today, {user.name.split(" ")[0]}?</h2>
-                        </div>
-                        <div className="inputSection">
-                            <div id="mainIngredientsInputContainer">
-                                <div id="headingAndButtonContainer">
-                                    <label id="inputHeading2"> Main Ingredients </label>
-                                </div>
-                                <textarea id="mainIngredientsTextInput" name='ingredients' placeholder='ex. linguine, shrimp' ref={ingredientsRef} onChange={inputsHandler} value={ingredients.value}/>
+                <div className="main-top">
+                    <div className="inputOutputContainer">
+                        <div className={isFinishedLoading ? "hideInputContainer" : "showInputContainer"}>
+                            <div id="inputHeading1">
+                                <h2>What are we making today, {user.name.split(" ")[0]}?</h2>
                             </div>
-                            <div id="timeInputContainer">
-                                <div id="headingAndButtonContainer">
-                                    <label id="inputHeading2"> Time </label>
-                                    <div id="timerButtonContainer">
-                                            <Button title={"Reset"} action={resetTime} />
-                                            <Button title={"-"} action={decrementTime} />
-                                            <Button title={"+"} action={incrementTime} />
+                            <div className="inputSection">
+                                <div id="mainIngredientsInputContainer">
+                                    <div id="headingAndButtonContainer">
+                                        <label id="inputHeading2"> Main Ingredients </label>
                                     </div>
+                                    <textarea id="mainIngredientsTextInput" name='ingredients' placeholder='ex. linguine, shrimp' ref={ingredientsRef} onChange={inputsHandler} value={ingredients.value}/>
                                 </div>
-                                <div id="displayTime">
-                                    <p>{time} mins</p>
-                                </div>
+                                <div id="timeInputContainer">
+                                    <div id="headingAndButtonContainer">
+                                        <label id="inputHeading2"> Time </label>
+                                        <div id="timerButtonContainer">
+                                                <Button title={"Reset"} action={resetTime} />
+                                                <Button title={"-"} action={decrementTime} />
+                                                <Button title={"+"} action={incrementTime} />
+                                        </div>
+                                    </div>
+                                    <div id="displayTime">
+                                        <p>{time} mins</p>
+                                    </div>
 
+                                </div>
+                            </div>
+
+                            <div id="submitButton">
+                                <div className={isLoadingRecipe ? "loadingSymbol" : "notLoading"}>
+                                    <p>Generating...</p>
+                                </div>
+                                <Button action={handleSubmit} title={"-->"}/>
                             </div>
                         </div>
-
-                        <div id="submitButton">
-                            <div className={isLoadingRecipe ? "loadingSymbol" : "notLoading"}>
-                                <p>Generating...</p>
-                            </div>
-                            <Button action={handleSubmit} title={"-->"}/>
+                        <div className={isFinishedLoading ? "showRecipeContainer" : "hideRecipeContainer"}>
+                            <Recipe res={response} userData={userData} setUserData={setUserData} setFinishedLoading={setFinishedLoading}/>
                         </div>
-                    </div>
-                    <div className={isFinishedLoading ? "showRecipeContainer" : "hideRecipeContainer"}>
-                        <Recipe res={response} userData={userData} setUserData={setUserData} setFinishedLoading={setFinishedLoading}/>
-                    </div>
-                </div> 
+                    </div> 
+                    <Pantry/>
+                </div>
 
                 <div>
                     <div className="favoritesContainer">
@@ -195,7 +172,6 @@ function Main() {
                             <FavoriteCard 
                                 key={userData._id}
                                 userData={userData}
-                                saveChanges={saveChanges}
                                 removeFavorite={removeFavorite}
                                 favPrev={favPrev}
                                 setFavPrev={setFavPrev}

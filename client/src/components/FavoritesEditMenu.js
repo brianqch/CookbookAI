@@ -4,7 +4,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
 function FavoritesEditMenu(props) {
-    const {objectId, removeFavorite, userData, favPrev, setFavPrev} = props;
+    const {objectId, removeFavorite, userData, favPrev, setFavPrev, isEditing, setEditing} = props;
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const element = document.getElementById(objectId);
@@ -36,10 +36,6 @@ function FavoritesEditMenu(props) {
             setOpenStatus(true);
         }
     };
-
-    const [isEditing, setEditing] = useState(false);
-
-
 
     const handleEdit = (objectId) => {
         setEditing(true);
@@ -101,11 +97,12 @@ function FavoritesEditMenu(props) {
 
         console.log(favPrev);
 
-        const favCardHeader = favPrev.shift();
+        const favCardHeading = favPrev.shift();
         const favCardText = favPrev.shift();
 
-        heading.parentNode.replaceChild(favCardHeader, heading);
+        heading.parentNode.replaceChild(favCardHeading, heading);
         favCardTextOpenP.parentNode.replaceChild(favCardText, favCardTextOpenP);
+        element.style.padding = "1rem 4rem";
 
         const saveButtonContainer = element.children[2];
         saveButtonContainer.className = "saveButtonContainerHidden";
@@ -134,7 +131,7 @@ function FavoritesEditMenu(props) {
             'aria-labelledby': 'basic-button',
             }}
         >
-            <MenuItem onClick={() => {openOrClose(objectId); handleClose();}}>{isOpen ? "Close recipe" : "View recipe"}</MenuItem>
+            <MenuItem onClick={() => {handleClose(); openOrClose(objectId);}}>{isOpen ? "Close recipe" : "View recipe"}</MenuItem>
             <MenuItem onClick={() => {isEditing ? handleCancelEdit(objectId) : handleEdit(objectId); handleClose();}}>{isEditing ? "Cancel edit": "Edit recipe"}</MenuItem>
             <MenuItem onClick={() => {removeFavorite(objectId); handleClose();}}>Remove</MenuItem>
         </Menu>
