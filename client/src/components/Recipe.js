@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Button from "./Button";
 import axios from "axios";
 import { useAuth0 } from '@auth0/auth0-react';
@@ -12,7 +12,7 @@ function Recipe(props) {
     const userId = user.sub;
 
     // Response from Chat GPT OpenAI API
-    let {res, userData, setUserData, setFinishedLoading} = props;
+    let {res, setUserData, setFinishedLoading} = props;
     
     const createNewFavorite = async () => {
         const dateObject = new Date();
@@ -21,7 +21,7 @@ function Recipe(props) {
         let year = dateObject.getFullYear();
         let currentDate = `${month}-${day}-${year}`;
         const json = JSON.stringify({name, userId, recipeTitle, recipeText, currentDate});
-        const res = await axios.post('http://localhost:8000/createFavorite', json,
+        await axios.post('http://localhost:8000/createFavorite', json,
         {headers: 
             { "Content-Type": "application/json" }
         });

@@ -7,7 +7,7 @@ import LogoutButton from "../components/LogoutButton";
 import Button from "../components/Button";
 import Recipe from "../components/Recipe";
 import SearchBar from "../components/SearchBar";
-import FavoritesEditMenu from "../components/FavoritesEditMenu";
+import FavoriteCard from "../components/FavoriteCard";
 
 function Main() {
     const { user } = useAuth0();
@@ -23,12 +23,11 @@ function Main() {
 
     const [isLoadingRecipe, setLoadingRecipe] = useState(false);
     const [isFinishedLoading, setFinishedLoading] = useState(false);
+    const [favPrev, setFavPrev] = useState([]);
     
-    const [isEditing, setEditing] = useState(false);
-
     const inputsHandler = (e) =>{
-        var taxt = e.target.innerHTML
-        let textArray = taxt.split(/\n/gm)
+        var text = e.target.innerHTML
+        text.split(/\n/gm)
         setIngredients( {value: e.target.value} )
     };
 
@@ -64,56 +63,73 @@ function Main() {
     };
 
 
-    let incrementTime = () => {
+    const incrementTime = () => {
         setTime(time + 15);
     }
 
-    let decrementTime = () => {
+    const decrementTime = () => {
         if (time > 0) {
             setTime(time - 15);
         }
     }
 
-    let resetTime = () => {
+    const resetTime = () => {
         setTime(0);
     }
 
-    const [openOrCloseLabel, setLabel] = useState("View recipe")
-
-    let openOrClose = (elementId) => {
-        const element = document.getElementById(elementId);
-        const favoriteCardText = element.children[1];
-        if (favoriteCardText.className == "favoriteCardTextOpen") {
-            favoriteCardText.className = "favoriteCardTextClosed";
-            element.style.flexDirection = "row";
-            setLabel("View recipe");
-        } else {
-            favoriteCardText.className = "favoriteCardTextOpen";
-            element.style.flexDirection = "column";
-            setLabel("Close recipe");
-        }
-    }
-
+    
+    // Retrieves the list of favorites for user with UserId and sets userData.
     const getFavorites = async () => {
         const res = await axios.get('http://localhost:8000/getFavorites', {params: { "userId": userId}});
         setUserData(res.data);
     };
 
+    // Stores the userId in the database if one does not exist. Else, loads the user's information.
     const loadOrCreateNewUser = async () => {
         const json = JSON.stringify({ name, userId})
-        let result = await axios.post('http://localhost:8000/loadOrCreateUser', json,
+        await axios.post('http://localhost:8000/loadOrCreateUser', json,
         {headers: 
             { "Content-Type": "application/json" }
         });
     }
 
+    // Deletes the favorite from the database with given id.
     const removeFavorite = async (id) => {
-        const res = await axios.delete('http://localhost:8000/deleteFavorite', {data: {"_id": id}}, 
+        await axios.delete('http://localhost:8000/deleteFavorite', {data: {"_id": id}}, 
         {headers: 
             { "Content-Type": "application/json" }
+        }).then(
+            getFavorites()
+        ).catch((err) => {
+            console.error(err);
         });
-        getFavorites();
     }
+
+    const saveChanges = async (objectId) => {
+        const element = document.getElementById(objectId);
+        const favCardHeader = element.children[0];
+        const recipeTitle = favCardHeader.children[0].value;
+        const favCardTextOpen = element.children[1];
+        const recipeText = favCardTextOpen.children[0].value;
+
+        const userId = objectId;
+        const json = JSON.stringify({ userId, recipeTitle, recipeText })
+
+        await axios
+            .put('http://localhost:8000/saveEdits', json,
+                {headers: 
+                    { "Content-Type": "application/json" }
+                })
+            .then(
+
+                console.log("Saved changes")
+            )
+            .catch((err) => {
+                console.error(err);
+            });
+        
+        getFavorites();
+    };
 
     useEffect(() => {
         loadOrCreateNewUser();
@@ -175,22 +191,17 @@ function Main() {
                     <div className="favoritesContainer">
                         <h2>Favorites</h2>
                         <SearchBar/>
-                        {userData.map(userData => 
-                            <div className="favoriteCard" id={userData._id}>
-                                <div id="favoriteCardHeader">
-                                    <h3>{userData.recipeTitle}</h3>
-                                    <div id="favoriteCardDateAndMenu">
-                                        <label id="dateCreatedLabel">Created on {userData.currentDate}</label>
-                                        <FavoritesEditMenu objectId={userData._id} openOrClose={openOrClose} removeFavorite={removeFavorite} openOrCloseLabel={openOrCloseLabel} setLabel={setLabel} userData={userData} isEditing={isEditing} setEditing={setEditing}/>
-                                    </div>
-                                </div>
-                                <div className='favoriteCardTextClosed'>
-                                    <p>{userData.recipeText}</p>
-                                </div>
-                                <div className="saveButtonContainerHidden">
-                                    <Button action={console.log()} title={"Save changes"}/>
-                                </div>
-                            </div>
+                        {userData.map(userData =>         
+                            <FavoriteCard 
+                                key={userData._id}
+                                userData={userData}
+                                saveChanges={saveChanges}
+                                removeFavorite={removeFavorite}
+                                favPrev={favPrev}
+                                setFavPrev={setFavPrev}
+                                Button={Button}
+                            />
+                            
                         )}
                     </div>
                 </div>

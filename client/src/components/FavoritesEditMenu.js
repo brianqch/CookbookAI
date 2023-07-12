@@ -1,27 +1,68 @@
 import React, { useState } from "react";
 import Button from '@mui/material/Button';
-import ButtonComponent from "./Button";
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
 function FavoritesEditMenu(props) {
-    const {objectId, openOrClose, removeFavorite, openOrCloseLabel, setLabel, userData, isEditing, setEditing} = props;
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    const {objectId, removeFavorite, userData, favPrev, setFavPrev} = props;
+    const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
+    const element = document.getElementById(objectId);
+    const [isOpen, setOpenStatus] = useState(false);
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
+
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    const openOrClose = (elementId) => {
+        const element = document.getElementById(elementId);
+        const favoriteCardText = element.children[1];
+
+        if (favPrev.length > 0) {
+            handleCancelEdit(elementId);
+        }
+
+        if (favoriteCardText.className === "favoriteCardTextOpen") {
+            favoriteCardText.className = "favoriteCardTextClosed";
+            element.style.flexDirection = "row";
+            setOpenStatus(false);
+        } else {
+            favoriteCardText.className = "favoriteCardTextOpen";
+            element.style.flexDirection = "column";
+            setOpenStatus(true);
+        }
+    };
+
+    const [isEditing, setEditing] = useState(false);
+
+
+
     const handleEdit = (objectId) => {
         setEditing(true);
-        const element = document.getElementById(objectId);
+        setOpenStatus(true);
         const favCardHeader = element.children[0];
-        const favCardTextOpen = element.children[1];
-        const favCardTextOpenP = favCardTextOpen.children[0]
+        const favoriteCardText = element.children[1];
+        if (favoriteCardText.className === "favoriteCardTextClosed") {
+            favoriteCardText.className = "favoriteCardTextOpen";
+            element.style.flexDirection = "column";
+            element.setAttribute("favStatus", "Open");
+        }
+        const favCardTextOpenP = favoriteCardText.children[0];
         const heading = favCardHeader.children[0];
+
+        const favCardTextOpenPClone = favCardTextOpenP.cloneNode(true);
+        const headingClone = heading.cloneNode(true);
+
+        let tempFavPrev = [];
+        tempFavPrev.push(headingClone);
+        tempFavPrev.push(favCardTextOpenPClone);
+        setFavPrev(tempFavPrev);
+
+        console.log(favPrev);
         
         const editRecipeTitle = document.createElement("input");
         editRecipeTitle.className = "editHeadingBox";
@@ -35,6 +76,7 @@ function FavoritesEditMenu(props) {
 
         heading.parentNode.replaceChild(editRecipeTitle, heading);
         favCardTextOpenP.parentNode.replaceChild(editRecipeText, favCardTextOpenP);
+
         editRecipeText.style.height = editRecipeText.scrollHeight + "px";
         editRecipeText.addEventListener("input", function (e) {
             this.style.height = "auto";
@@ -49,6 +91,29 @@ function FavoritesEditMenu(props) {
         }
     };
 
+    const handleCancelEdit = (objectId) => {
+        setEditing(false);
+        const element = document.getElementById(objectId);
+        const header = element.children[0];
+        const heading = header.children[0];
+        const favoriteCardText = element.children[1];
+        const favCardTextOpenP = favoriteCardText.children[0]
+
+        console.log(favPrev);
+
+        const favCardHeader = favPrev.shift();
+        const favCardText = favPrev.shift();
+
+        heading.parentNode.replaceChild(favCardHeader, heading);
+        favCardTextOpenP.parentNode.replaceChild(favCardText, favCardTextOpenP);
+
+        const saveButtonContainer = element.children[2];
+        saveButtonContainer.className = "saveButtonContainerHidden";
+
+        setFavPrev([]);
+    };
+
+
     return (
         <div>
         <Button
@@ -58,7 +123,7 @@ function FavoritesEditMenu(props) {
             aria-expanded={open ? 'true' : undefined}
             onClick={handleClick}
         >
-            <img width="30px" src="/assets/editmenuicon.png"/>
+            <img width="30px" src="/assets/editmenuicon.png" alt="editMenuIcon"/>
         </Button>
         <Menu
             id="basic-menu"
@@ -69,8 +134,8 @@ function FavoritesEditMenu(props) {
             'aria-labelledby': 'basic-button',
             }}
         >
-            <MenuItem onClick={() => {openOrClose(objectId); handleClose();}}>{openOrCloseLabel}</MenuItem>
-            <MenuItem onClick={() => {handleEdit(objectId); handleClose();}}>Edit</MenuItem>
+            <MenuItem onClick={() => {openOrClose(objectId); handleClose();}}>{isOpen ? "Close recipe" : "View recipe"}</MenuItem>
+            <MenuItem onClick={() => {isEditing ? handleCancelEdit(objectId) : handleEdit(objectId); handleClose();}}>{isEditing ? "Cancel edit": "Edit recipe"}</MenuItem>
             <MenuItem onClick={() => {removeFavorite(objectId); handleClose();}}>Remove</MenuItem>
         </Menu>
         </div>

@@ -123,6 +123,26 @@ app.delete("/deleteFavorite", async (req, res) => {
         res.send("Unable to delete favorite.");
         console.log(e);
     }
+});
+
+app.put("/saveEdits", async (req, res) => {
+    console.log(req.body);
+    try {
+        const result = await Favorite.updateOne(
+            {
+                "_id": req.body.userId
+            },
+            {
+                $set:{
+                    recipeTitle: req.body.recipeTitle,
+                    recipeText: req.body.recipeText
+                }
+            }
+         )
+    } catch (e) {
+        res.send("Unable to save changes.");
+        console.log(e);
+    }
 })
 
 
