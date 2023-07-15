@@ -10,8 +10,8 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    min-height: fit-content;
     flex-grow: 1;
+    box-sizing: border-box;
 }
 
 .pantry-container h1 {
@@ -19,4 +19,31 @@
     font-weight: 900;
     text-shadow: -0.5px 0.5px, 0.5px 0.5px, 0.5px 0.5px;
     letter-spacing:1px;
+}
+
+.pantry-item-container {
+    max-width: 500px;
+    display: flex;
+    border-radius: 20px;
+    background-color:white;
+    margin-top: 1rem;
+    padding: 1rem;
+    flex-wrap: wrap;
+    height: 100%;
+    align-content: flex-start;
+    overflow-y: auto;
+}
+
+.pantry-item-input-container {
+    margin-top: 1rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.pantry-item-input {
+    padding: 1rem;
+    background-color: white;
+    border-radius: 20px;
+    box-sizing: border-box;
 }

@@ -1,0 +1,16 @@
+.pantry-item {
+    display: flex;
+    background-color: lightskyblue;
+    border-radius: 10px;
+    width: fit-content;
+    height: 30px;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin: 0.5rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.pantry-item p {
+    margin: 0px;
+}

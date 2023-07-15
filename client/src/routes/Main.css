@@ -28,6 +28,7 @@
     flex-direction: column;
     justify-content: space-between;
     min-height: fit-content;
+    min-width: 700px;
     flex-grow: 1;
 }
 

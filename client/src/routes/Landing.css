@@ -1,111 +1,100 @@
-.head {
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200..900');
+
+.landing-background-svg {
+    position: absolute;
+    z-index: -1;
+    display: block;
+}
+
+.landing-header-container {
+    padding: 3rem 3rem 0rem 3rem;
+    color: #F39A59;
+}
+
+.landing-header-title {
     margin: 0;
-    background-image: url("/assets/headBackground.png");
-    background-size: cover;
-    height: 65rem;
-    padding: 4em;
+    font-family: 'Inter', sans-serif;
 }
 
-.howContainer {
-    padding: 4em;
-    font-family: 'Inter';
+/* HERO SECTION */
+.landing-hero-section {
+    margin-top: 2rem;
+    padding: 3rem;
+    width: 40vw;
 }
 
-.howContainer h1 {
-    font-weight: 950;
-    font-size: 50px;
-    text-shadow: -1px 1px, 1px 1px, 1px 1px;
+.landing-hero-section h1 {
+    margin-top: 0;
+    color: #F39A59;
+    font-family: 'Inter', sans-serif;
+    font-size: 70px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
 }
 
-.head1 {
-    font-family: 'Inter';
-    color: white;
-    margin-bottom: 40px;
-}
-
-.head1 h1 {
-    font-size: 64px;
-    font-weight: 1000;
-    text-shadow: -1px 1px, 1px 1px, 1px 1px;
-}
-
-.head1 h3 {
-    font-size: 30px;
-
-}
-
-#cookingButton {
-    height: 60px;
-    width: 250px;
-    display: inline-flex;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    background-color: #FFC49A; 
-    border-radius: 20px;
-    font-family: 'Inter';
-    font-weight: bolder;
-    font-size: 20px;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid #FFC49A;
-    transition: background-color 0.5s cubic-bezier(0.23, 1, 0.320, 1);
-}
-
-#cookingButton:hover {
-    background-color: white;
-    color: #FFC49A;
-    transition: background-color 0.5s cubic-bezier(0.23, 1, 0.320, 1);
-}
-
-#cookingButton #cookingButtonText {
-    color: white;
-    text-decoration: none;
-    letter-spacing: 1px;
-    text-shadow: -0.5px 0.5px, 0.5px 0.5px, 0.5px 0.5px;
-    letter-spacing:2px;
-    width: 100%;
-    height: 100%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
-
-#cookingButton #cookingButtonText:hover {
-    color: #FFC49A;
-    transition: color 0.5s cubic-bezier(0.23, 1, 0.320, 1);
-}
-
-.howFrames {
-    display: grid;
-    align-items: center;
-    grid-template-columns: repeat(auto-fit, minmax(24rem, 1fr));
-    margin-top: 5rem;
-    justify-items: center;
-}
-
-.howFrameImage {
-    width: 24rem;
-    height: 25rem;
-    flex-shrink: 0;
-    border-radius: 20px;
-    border: 1px solid #B3b3b3;
-    background: #FFF;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    align-self: center;
-}
-
-.howFrameCaption {
-    display: flex;
-    width: 24rem;
-    height: 4.2rem;
-    flex-direction: column;
-    flex-shrink: 0;
-    color: #393939;
-    text-align: center;
-    font-size: 1.5rem;
-    font-family: 'Inter';
+.landing-hero-section h6 {
+    margin: 0;
+    color: #F39A59;
+    font-family: 'Inter', sans-serif;
+    font-size: 26px;
+    font-style: normal;
     font-weight: 700;
-    text-shadow: -0.5px 0.5px, 0.5px 0.5px, 0.5px 0.5px;
-    letter-spacing:1px;
-    align-self: center;
-    margin-bottom: 5rem;
+    line-height: normal;
+}
+
+.landing-hero-button {
+    margin-top: 3rem;
+    width: 210px;
+    height: 65px;
+    flex-shrink: 0;
+    border-radius: 30px;
+    background: #6E8898;
+    border: none;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    color: #FFF;
+    text-align: center;
+    font-family: 'Inter';
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    cursor: pointer;
+    transition: background-color 150ms linear;
+}
+
+.landing-hero-button:hover {
+    transition: background-color 150ms linear;
+    background-color: white;
+    color: #6E8898;
+}
+
+.landing-food-container {
+    display: flex;
+    background: #F39A59;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50vw;
+    height: 60vh;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    gap: 16px 58px;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+}
+
+.landing-food-container-outline {
+    position: absolute;
+    border: 1px solid #F39A59;
+    width: 50vw;
+    height: 60vh;
+    top: 40px;
+    right: 40px;
+}
+
+.landing-how-section {
+    display: flex;
+    padding: 3rem;
 }
