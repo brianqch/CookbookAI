@@ -7,13 +7,19 @@
 }
 
 .header-container {
+    display: flex;
     padding: 1rem 3rem 0rem 3rem;
     color: #F39A59;
+    justify-content: space-between;
 }
 
 .header-title {
     margin: 0;
     font-family: 'Inter', sans-serif;
+    -webkit-user-select: none; /* Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
 }
 
 /* HERO SECTION */

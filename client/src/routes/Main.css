@@ -8,6 +8,19 @@
     font-style: normal;
     font-weight: 800;
     line-height: normal;
+    -webkit-user-select: none; /* Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
+}
+
+.welcome-prompt-appear {
+    opacity: 0;
+}
+
+.welcome-prompt-appear-done {
+    opacity: 1;
+    transition: opacity 750ms;
 }
 
 .input-output-section {
@@ -52,26 +65,27 @@
     font-style: normal;
     font-weight: 700;
     line-height: normal;
+    -webkit-user-select: none; /* Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
 }
 
 .input-area {
     grid-column: 1/4;
-    padding: 2rem;
+    padding: 1.2rem;
     resize: none;
     margin-top: 2rem;
     margin-bottom: 2rem;
     border: 1px solid #E4E4E4;
     border-radius: 20px;
     vertical-align: middle;
-    line-height: 1.2px;
     font-family: 'Inter', sans-serif;
 }
 
-.input-area::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-    color: #e4e4e4;
-    opacity: 1; /* Firefox */
-    font-family: 'Inter';
-    font-size: 15px;
+.input-area:empty:before {
+    content:attr(data-placeholder);
+    color:#E4E4E4;
 }
 
 .input-button {
@@ -94,6 +108,10 @@
     line-height: normal;
     cursor: pointer;
     transition: background-color 150ms linear;
+    -webkit-user-select: none; /* Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
 }
 
 .input-button:hover {

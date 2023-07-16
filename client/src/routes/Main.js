@@ -1,14 +1,27 @@
-import React, { useEffect, useState, createRef} from "react";
+import React, { useEffect, useState, createRef, useRef} from "react";
+import {CSSTransition} from "react-transition-group";
 import { useAuth0 } from '@auth0/auth0-react';
 import { motion } from "framer-motion/dist/framer-motion";
 import axios from "axios";
+import Button from '@mui/material/Button';
 import "./Main.css";
+
+import Box from '@mui/material/Box';
+import Drawer from '@mui/material/Drawer';
+import List from '@mui/material/List';
+import Divider from '@mui/material/Divider';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+
 import LogoutButton from "../components/LogoutButton";
-import Button from "../components/Button";
+import {Button as CustomButton}  from "../components/Button";
 import Recipe from "../components/Recipe";
 import SearchBar from "../components/SearchBar";
 import FavoriteCard from "../components/FavoriteCard";
 import Pantry from "../components/Pantry";
+import WelcomePrompt from "../components/WelcomePrompt";
 
 function Main() {
     const { user } = useAuth0();
@@ -19,28 +32,32 @@ function Main() {
     const [response, setResponse] = useState("");
 
     const [ingredients, setIngredients] = useState({value: ""});
-    const ingredientsRef = createRef();
     const [preferences, setPreferences] = useState({value: ""});
-    const preferencesRef = createRef();
+
+    const nodeRef = useRef(null);
+    const [height, setHeight] = useState('min-content');
 
     const [isLoadingRecipe, setLoadingRecipe] = useState(false);
     const [isFinishedLoading, setFinishedLoading] = useState(false);
     const [favPrev, setFavPrev] = useState([]);
     
     const inputsHandler = (e) =>{
-        var text = e.target.innerHTML
+        var text = e.target.innerText;
         text.split(/\n/gm)
         if (e.target.id === "mainIngredientsTextInput") {
-            setIngredients( {value: e.target.value} )
-            console.log(ingredients);
+            setIngredients( {value: text} )
+            console.log("These are my ingredients", ingredients);
         }
         if (e.target.id === "preferencesTextInput") {
-            setPreferences( {value: e.target.value} )
-            console.log(preferences)
+            setPreferences( {value: text} )
+            console.log("These are my preferences", preferences.value.length)
+            
         }   
     };
 
-    const prompt = `Create a recipe with step by step instructions using the following ingredients: ${ingredients.value}. Here are some preferences I have for the recipe. ${preferences.value}`
+    const prefPostBool = (preferences.value.length > 0) ? `Here are some preferences I have for the recipe. ${preferences.value}` : "";
+
+    const prompt = `Create a recipe with step by step instructions using the following ingredients: ${ingredients.value}. ${prefPostBool}`
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -60,6 +77,8 @@ function Main() {
                 setFinishedLoading(true);
                 const inputOutputSection = document.getElementsByClassName("input-output-section")[0];
                 inputOutputSection.classList.toggle('expand');
+                setIngredients({value: ""});
+                setPreferences({value: ""});
             })
             .catch((err) => {
                 console.error(err);
@@ -100,31 +119,38 @@ function Main() {
         getFavorites();
     }, []);
 
-    const welcomePrompt = isFinishedLoading ? "Here's what we got." : `What are we making today, ${user.name.split(" ")[0]}?`
-
     const inputContainer = (
-        <div className="input-container">
-            <label className="input-label">Main Ingredients</label>
-            <textarea 
-                className="input-area" 
-                id="mainIngredientsTextInput" 
-                name='ingredients' 
-                placeholder='ex. catfish, fish sauce' 
-                ref={ingredientsRef} 
-                onChange={inputsHandler} 
-                value={ingredients.value}/>
-            <label className="input-label">Preferences</label>
-            <textarea 
-                className="input-area" 
-                id="preferencesTextInput" 
-                name='preferences' 
-                placeholder='I want it pan-fried and done in under 30 minutes.' 
-                ref={preferencesRef} 
-                onChange={inputsHandler} 
-                value={preferences.value}
-                /> 
-            <button className="input-button" onClick={handleSubmit}> Submit </button>
-        </div>
+            <div className="input-container">
+                <label className="input-label">Main Ingredients</label>
+                {/* <textarea 
+                    className="input-area" 
+                    id="mainIngredientsTextInput" 
+                    name='ingredients' 
+                    placeholder='ex. catfish, fish sauce' 
+                    ref={ingredientsRef} 
+                    onChange={inputsHandler} 
+                    value={ingredients.value}
+                /> */}
+                <div 
+                    className="input-area" 
+                    id="mainIngredientsTextInput"
+                    contentEditable="true" 
+                    data-placeholder="catfish, fish sauce"
+                    onInput={inputsHandler}
+                >
+                </div>
+                <label className="input-label">Preferences</label>
+                <div 
+                    className="input-area" 
+                    id="preferencesTextInput"
+                    contentEditable="true" 
+                    data-placeholder="I want it pan-friend and done in udner 30 minutes"
+                    onInput={inputsHandler}
+                >
+                    
+                </div>
+                <button className="input-button" onClick={handleSubmit}> Submit </button>
+            </div>
     );
 
     const outputContainer = (
@@ -132,6 +158,42 @@ function Main() {
             <Recipe res={response} userData={userData} setUserData={setUserData} setFinishedLoading={setFinishedLoading}/>
         </div>
     )
+
+    const [drawerStatus, setDrawerStatus] = useState(false);
+
+    const burgerMenu = (
+        <svg viewBox="0 0 100 80" width="40" height="20">
+            <rect width="100" height="20"></rect>
+            <rect y="30" width="100" height="20"></rect>
+            <rect y="60" width="100" height="20"></rect>
+        </svg>
+    )
+
+    const toggleDrawer = (open) => (event) => {
+        if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+          return;
+        }
+    
+        setDrawerStatus(prevDrawerStatus => !prevDrawerStatus);
+      };
+    
+    const anchor = 'right';
+
+    const list =  (
+        <Box
+          sx={{ width: 250 }}
+          role="presentation"
+          onClick={toggleDrawer(false)}
+          onKeyDown={toggleDrawer(false)}
+        >
+          <List>
+            <ListItem>
+                <LogoutButton/>
+                <ListItemText primary={"Logout"}/>
+            </ListItem>
+          </List>
+        </Box>
+      );
 
     return (
         (
@@ -151,16 +213,31 @@ function Main() {
                 </defs>
             </svg>
             <header className="header-container">
-                    <h2 className="header-title">Cookbook.ai</h2> 
+                <h2 className="header-title">Cookbook.ai</h2> 
+                <Button onClick={toggleDrawer(true)}>{burgerMenu}</Button>
+                <Drawer
+                    anchor={'right'}
+                    open={drawerStatus}
+                    onClose={toggleDrawer(false)}
+                >   
+                    {console.log(drawerStatus)}
+                    {list}
+                </Drawer>
             </header>
             <div className="main-container">
-                <span>
-                    <h1 className="welcome-prompt">{welcomePrompt}</h1>
-                </span>
+            <WelcomePrompt isFinishedLoading={isFinishedLoading} user={user}/>
                 <section className="input-output-section">
-                    <div className="input-output-container">
-                        {isFinishedLoading ? outputContainer : inputContainer}
-                    </div>
+                    <CSSTransition
+                        in={true}
+                        classNames="input-output-container"
+                        appear={true}
+                        timeout={500}
+                        nodeRef={nodeRef}
+                    >
+                        <div className="input-output-container" ref={nodeRef}>
+                            {isFinishedLoading ? outputContainer : inputContainer}
+                        </div>
+                    </CSSTransition>
                 </section>
             </div>
 
