@@ -161,19 +161,19 @@ const loremIpmsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n
 // Endpoint for Chat GPT
 app.post("/chat", async (req, res) => {
 
-    const { prompt } = req.body;
+    // const { prompt } = req.body;
 
     // console.log(req.body);
 
-    const completion = await openai.createCompletion({
-        model: "text-davinci-003",
-        max_tokens: 512,
-        temperature: 0,
-        prompt: prompt,
-    });
+    // const completion = await openai.createCompletion({
+    //     model: "text-davinci-003",
+    //     max_tokens: 512,
+    //     temperature: 0,
+    //     prompt: prompt,
+    // });
 
     // console.log(completion.data.choices[0].text);
 
-    res.send(completion.data.choices[0].text);
-    // res.send(loremIpmsum);
+    // res.send(completion.data.choices[0].text);
+    res.send(loremIpmsum);
 })

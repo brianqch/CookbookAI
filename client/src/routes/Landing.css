@@ -1,17 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200..900');
 
-.landing-background-svg {
+.background-svg {
     position: absolute;
     z-index: -1;
     display: block;
 }
 
-.landing-header-container {
-    padding: 3rem 3rem 0rem 3rem;
+.header-container {
+    padding: 1rem 3rem 0rem 3rem;
     color: #F39A59;
 }
 
-.landing-header-title {
+.header-title {
     margin: 0;
     font-family: 'Inter', sans-serif;
 }

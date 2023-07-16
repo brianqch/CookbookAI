@@ -1,16 +1,112 @@
-.header {
-    background-color: #F36259;
-    padding: 1rem 5rem;
-    color: white;
-    font-family: 'Inter';
-    font-weight: 900;
-    text-shadow: -0.5px 0.5px, 0.5px 0.5px, 0.5px 0.5px;
-    letter-spacing:1px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
+.main-container {
+    padding: 3rem;
 }
+.welcome-prompt {
+    color: #F39A59;
+    font-family: 'Inter', sans-serif;
+    font-size: 50px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+}
+
+.input-output-section {
+    display: flex;
+    justify-content: center;
+    margin-top: 5rem;
+    padding-bottom: 2rem;
+    overflow: hidden;
+    max-height: 60vh;
+    transition: max-height 2s ease-in;
+}
+
+.input-output-section.expand {
+    transition: max-height 2s ease-in;
+    max-height: 2000px;
+}
+
+.input-output-container {
+    min-height: 0px;
+    padding: 4rem;
+    background-color: white;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    width: 60vw;
+    transition: opacity
+}
+
+.input-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    transition: opacity 1s ease-in;
+}
+
+.input-container.hidden {
+    transition: opacity 1s ease-in;
+}
+
+.input-label {
+    color: #F39A59;
+    font-family: 'Inter', sans-serif;
+    font-size: 25px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.input-area {
+    grid-column: 1/4;
+    padding: 2rem;
+    resize: none;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    border: 1px solid #E4E4E4;
+    border-radius: 20px;
+    vertical-align: middle;
+    line-height: 1.2px;
+    font-family: 'Inter', sans-serif;
+}
+
+.input-area::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #e4e4e4;
+    opacity: 1; /* Firefox */
+    font-family: 'Inter';
+    font-size: 15px;
+}
+
+.input-button {
+    grid-column: 2;
+    justify-self: center;
+    align-self: flex-end;
+    width: 150px;
+    height: 55px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: #6E8898;
+    border: none;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    color: #FFF;
+    text-align: center;
+    font-family: 'Inter';
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    cursor: pointer;
+    transition: background-color 150ms linear;
+}
+
+.input-button:hover {
+    transition: background-color 150ms linear;
+    background-color: white;
+    color: #6E8898;
+}
+
+
+
+
+
+/* 
 
 .main-top {
     display: flex;
@@ -129,4 +225,4 @@
 
 .notLoading {
     display: none;
-}
+} */

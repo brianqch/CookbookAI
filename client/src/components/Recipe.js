@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
+import {CSSTransition} from "react-transition-group"
 import Button from "./Button";
 import axios from "axios";
 import { useAuth0 } from '@auth0/auth0-react';
@@ -10,6 +11,7 @@ function Recipe(props) {
     const { user } = useAuth0();
     const name = user.name;
     const userId = user.sub;
+    const nodeRef = useRef(null);
 
     // Response from Chat GPT OpenAI API
     let {res, setUserData, setFinishedLoading} = props;
@@ -37,23 +39,37 @@ function Recipe(props) {
         setUserData(res.data);
     };
 
+    const generateNewRecipe = () => {
+        const inputOutputSection = document.getElementsByClassName("input-output-section")[0];
+        inputOutputSection.classList.toggle('expand');
+        setFinishedLoading(false)
+    }
+
     useEffect(() => {
         getFavorites();
     }, []);
 
     return (
-        <div className="recipeContainer">
-            <div id="recipeHeading">
-                <label>{recipeTitle}</label>
+        <CSSTransition
+            in={true}
+            classNames="recipe-container"
+            appear={true}
+            timeout={500}
+            nodeRef={nodeRef}
+        >
+            <div className="recipe-container" ref={nodeRef}>
+                <div id="recipeHeading">
+                    <label>{recipeTitle}</label>
+                </div>
+                <div id="recipeSection">
+                    <p> {recipeText} </p>
+                </div>
+                <div id="saveOrGenerateNewSection">
+                    <Button action={createNewFavorite} title={"Add to favorites"}/>
+                    <Button action={generateNewRecipe} title={"Generate new recipe"}/>
+                </div>
             </div>
-            <div id="recipeSection">
-                <p> {recipeText} </p>
-            </div>
-            <div id="saveOrGenerateNewSection">
-                <Button action={createNewFavorite} title={"Add to favorites"}/>
-                <Button action={() => {setFinishedLoading(false)}} title={"Generate new recipe"}/>
-            </div>
-        </div>
+        </CSSTransition>
     )
 }
 

@@ -1,27 +1,36 @@
-.recipeContainer #recipeHeading {
-    font-family: 'Inter';
-    font-weight: 700;
-    font-size: 20px;
-    text-shadow: -0.2px 0.2px, 0.2px 0.2px, 0.2px 0.2px;
-    letter-spacing:1px;
-    margin-top: auto;
-    padding: 0.5rem 0.5rem;
+.recipe-container-appear {
+    opacity: 0;
+    transition: opacity 2s;
 }
 
-.recipeContainer #recipeSection {
+.recipe-container-appear-done {
+    opacity: 1;
+    transition: opacity 2s;
+}
+
+
+.recipe-container #recipeHeading {
+    color: #F39A59;
+    font-family: 'Inter', sans-serif;
+    font-size: 25px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.recipe-container #recipeSection {
+    margin: 0;
     max-width: 100%;
     display: flex;
     border-radius: 20px;
     background-color:white;
-    padding: 0.5rem 0.5rem;
     margin-top: 2rem;
     align-content: center;
     font-family: 'Inter';
-    padding: 1rem 1rem;
     white-space: pre-wrap;
 }
 
-.recipeContainer #saveOrGenerateNewSection {
+.recipe-container #saveOrGenerateNewSection {
     margin-top: 2rem;
     display: flex;
     justify-content: space-between;
