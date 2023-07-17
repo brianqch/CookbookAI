@@ -1,4 +1,84 @@
-.favoriteCard {
+.favorite-card-outer-container {
+    width: 100%;
+    flex-grow: 1;
+}
+
+.favorite-card {
+    box-sizing: border-box;
+    display: flex;
+    margin: 1rem 1rem 0rem 0rem;
+    padding-top: 1rem;
+    padding-left: 2rem;
+    padding-bottom: 3rem;
+    padding-right: 2rem;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    background-color: white;
+    border-radius: 20px;
+    flex-direction: column;
+}
+
+.favorite-card-active {
+    box-sizing: border-box;
+    display: flex;
+    margin: 1rem 1rem 0rem 0rem;
+    padding-top: 2rem;
+    padding-left: 2rem;
+    padding-bottom: 3rem;
+    padding-right: 2rem;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    background-color: white;
+    border-radius: 20px;
+    flex-direction: column;
+}
+
+.favorite-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-grow: 1;
+    color: #F39A59;
+
+    font-family: 'Inter', sans-serif;
+}
+
+.favorite-card-details {
+    margin-top: 1rem;
+    font-family: 'Inter', sans-serif;
+    white-space: pre-wrap;
+}
+
+.favorite-card-open-mode-box {
+    border: 1px solid transparent;
+}
+
+.favorite-card-open-mode-box#open-recipe-title {
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+.favorite-card-open-mode-box#open-recipe-text{
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+.favorite-card-edit-mode-box {
+    border: 1px solid #F39A59;
+    border-radius: 20px;
+}
+
+.favorite-card-edit-mode-box#user-edited-recipe-title {
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+.favorite-card-edit-mode-box#user-edited-recipe-text {
+    padding-left: 2rem;
+    padding-right: 2rem;
+    margin-bottom: 1rem;
+}
+
+
+/* .favoriteCard {
     margin: 1rem 0rem;
     background-color: #FFF9F8;
     flex-shrink: 0;
@@ -98,4 +178,4 @@
     display: flex;
     margin-top: 1rem;
     justify-content: flex-end;
-}
+} */

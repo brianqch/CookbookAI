@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import {CSSTransition} from "react-transition-group"
-import Button from "./Button";
+import Button from "./CustomButton";
 import axios from "axios";
 import { useAuth0 } from '@auth0/auth0-react';
 import "./Recipe.css";

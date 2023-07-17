@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Pantry.css"
-import Button from "./Button";
+import Button from "./CustomButton";
 import PantryItem from "./PantryItem";
 
 function Pantry(props) {

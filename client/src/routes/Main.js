@@ -16,7 +16,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 
 import LogoutButton from "../components/LogoutButton";
-import {Button as CustomButton}  from "../components/Button";
+import CustomButton from "../components/CustomButton";
 import Recipe from "../components/Recipe";
 import SearchBar from "../components/SearchBar";
 import FavoriteCard from "../components/FavoriteCard";
@@ -35,11 +35,11 @@ function Main() {
     const [preferences, setPreferences] = useState({value: ""});
 
     const nodeRef = useRef(null);
-    const [height, setHeight] = useState('min-content');
+
+    const [editsMade, setEditsMade] = useState(false);
 
     const [isLoadingRecipe, setLoadingRecipe] = useState(false);
     const [isFinishedLoading, setFinishedLoading] = useState(false);
-    const [favPrev, setFavPrev] = useState([]);
     
     const inputsHandler = (e) =>{
         var text = e.target.innerText;
@@ -117,7 +117,7 @@ function Main() {
     useEffect(() => {
         loadOrCreateNewUser();
         getFavorites();
-    }, []);
+    }, [editsMade]);
 
     const inputContainer = (
             <div className="input-container">
@@ -144,7 +144,7 @@ function Main() {
                     className="input-area" 
                     id="preferencesTextInput"
                     contentEditable="true" 
-                    data-placeholder="I want it pan-friend and done in udner 30 minutes"
+                    data-placeholder="I want it pan-fried and done in under 30 minutes"
                     onInput={inputsHandler}
                 >
                     
@@ -162,10 +162,10 @@ function Main() {
     const [drawerStatus, setDrawerStatus] = useState(false);
 
     const burgerMenu = (
-        <svg viewBox="0 0 100 80" width="40" height="20">
-            <rect width="100" height="20"></rect>
-            <rect y="30" width="100" height="20"></rect>
-            <rect y="60" width="100" height="20"></rect>
+        <svg viewBox="0 0 100 80" width="40" height="20" className="burger-menu">
+            <rect width="90" height="15"></rect>
+            <rect y="30" width="90" height="15"></rect>
+            <rect y="60" width="90" height="15"></rect>
         </svg>
     )
 
@@ -189,11 +189,28 @@ function Main() {
           <List>
             <ListItem>
                 <LogoutButton/>
-                <ListItemText primary={"Logout"}/>
             </ListItem>
           </List>
         </Box>
       );
+
+
+    const [favoriteActive, setFavoriteActive] = useState(null);
+
+    const favoriteCards = (
+        userData.map(userData =>         
+            <FavoriteCard 
+                key={userData._id}
+                id={userData._id}
+                userData={userData}
+                removeFavorite={removeFavorite}
+                Button={CustomButton}
+                favoriteActive={favoriteActive}
+                setFavoriteActive={setFavoriteActive}
+                setEditsMade={setEditsMade}
+            />
+        )
+    )
 
     return (
         (
@@ -220,7 +237,6 @@ function Main() {
                     open={drawerStatus}
                     onClose={toggleDrawer(false)}
                 >   
-                    {console.log(drawerStatus)}
                     {list}
                 </Drawer>
             </header>
@@ -238,6 +254,18 @@ function Main() {
                             {isFinishedLoading ? outputContainer : inputContainer}
                         </div>
                     </CSSTransition>
+                </section>
+            </div>
+            <div className="favorites-container">
+                <section className="favorites-section">
+                        <h2 className="favorites-title">Favorites</h2>
+                        <SearchBar/>
+                        <section className="favorite-card-column-section">
+                            <div className="favorite-card-container">
+                                {favoriteCards}
+                            </div>
+                            {favoriteActive}
+                        </section>
                 </section>
             </div>
 

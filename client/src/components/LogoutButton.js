@@ -6,7 +6,10 @@ function LogoutButton() {
     const {logout, isAuthenticated} = useAuth0();
     return (
         isAuthenticated && (
-            <img id="logoutButton" src="/assets/logoutButton.png" alt="Logout" onClick={() => logout()}></img>
+            <div className="logout-button-container" onClick={() => logout()}>
+                <img id="logout-button" src="/assets/logoutButton.png" alt="Logout"></img>
+                <p>Logout</p>
+            </div>
         )
     )
 

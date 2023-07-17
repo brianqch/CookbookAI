@@ -1,21 +1,4 @@
-.input-wrapper {
+.input-area#favoritesSearchInput {
     background-color: white;
-    width: 15rem;
-    border-radius: 10px;
-    height: 1.5rem;
-    padding: 0.5rem 1rem;
-    border: 1px solid #ddd;
-    display: flex;
-    align-items: center;
-}
-
-input {
-    background-color: transparent;
-    border: none;
-    font-size: 1rem;
-    width: 100%;
-}
-
-input:focus {
-    outline: none;
+    width: 20rem;
 }

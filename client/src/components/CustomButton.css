@@ -1,4 +1,4 @@
-.Button {
+.customButton {
     margin-top: 3rem;
     padding: 1rem 1.5rem;
     border-radius: 10px;
@@ -17,7 +17,7 @@
     transition: background-color 150ms linear;
 }
 
-.Button:hover {
+.customButton:hover {
     transition: background-color 150ms linear;
     background-color: white;
     color: #6E8898;

@@ -3,8 +3,13 @@ import "./SearchBar.css";
 
 function SearchBar() {
     return (
-        <div className="input-wrapper">
-            <input placeholder="Search by ingredients"></input>
+        <div 
+        className="input-area" 
+        id="favoritesSearchInput"
+        contentEditable="true" 
+        data-placeholder="Search by ingredients"
+        // onInput={inputsHandler}
+        >
         </div>
     )
 }
