@@ -1,6 +1,6 @@
 .pantry-item {
     display: flex;
-    background-color: lightskyblue;
+    border: 1px solid #F39A59;
     border-radius: 10px;
     width: fit-content;
     height: 30px;
@@ -8,9 +8,18 @@
     padding-right: 1rem;
     margin: 0.5rem;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    gap: 1rem;
 }
 
 .pantry-item p {
     margin: 0px;
+    -webkit-user-select: none; /* Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
+}
+
+.xDeleteButton {
+    cursor: pointer;
 }

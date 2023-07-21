@@ -37,7 +37,7 @@ function FavoriteCard(props) {
         <div className="favorite-card-active" key={userData._id} id={userData._id}>
             <span className="favorite-card-header">
                 <div className="favorite-card-open-mode-box" id="open-recipe-title"><h3>{userData.recipeTitle}</h3></div>
-                <FavoritesEditMenu mode={mode} setMode={setMode} setFavoriteActive={setFavoriteActive} favoriteCardEditMode={favoriteCardEditMode}/>
+                <FavoritesEditMenu id={id} mode={mode} setMode={setMode} setFavoriteActive={setFavoriteActive} removeFavorite={removeFavorite} setEditsMade={setEditsMade}/>
             </span>
             <div className="favorite-card-details">
                 <div className="favorite-card-open-mode-box" id="open-recipe-text"><p>{userData.recipeText}</p></div>
@@ -56,7 +56,7 @@ function FavoriteCard(props) {
                 >
                     <h3>{userData.recipeTitle}</h3>
                 </div>
-                <FavoritesEditMenu mode={mode} setMode={setMode} favoriteActive={favoriteActive} setFavoriteActive={setFavoriteActive} favoriteCardEditMode={favoriteCardEditMode}/>
+                <FavoritesEditMenu id={id} mode={mode} setMode={setMode} favoriteActive={favoriteActive} setFavoriteActive={setFavoriteActive} removeFavorite={removeFavorite} setEditsMade={setEditsMade}/>
             </span>
             <div className="favorite-card-details">
                 <div 
@@ -76,7 +76,6 @@ function FavoriteCard(props) {
         <div className="favorite-card" key={userData._id} id={userData._id}>
             <span className="favorite-card-header">
                 <h3>{userData.recipeTitle}</h3>
-                {mode}
             </span>
         </div>
     )
@@ -94,6 +93,8 @@ function FavoriteCard(props) {
                 break;
             case "openMode":
                 setFavoriteActive(favoriteCardOpenMode);
+                break;
+            default:
                 break;
         }
     }, [mode])
@@ -113,26 +114,3 @@ function FavoriteCard(props) {
 } 
 
 export default FavoriteCard;
-
-{/* <div className="favoriteCard" key={userData._id} id={userData._id}>
-<div id="favoriteCardHeader">
-    <h3>{userData.recipeTitle}</h3>
-    <div id="favoriteCardDateAndMenu">
-        <label id="dateCreatedLabel">Created on {userData.currentDate}</label>
-        <FavoritesEditMenu 
-            objectId={userData._id} 
-            removeFavorite={removeFavorite} 
-            userData={userData} 
-            favPrev={favPrev} 
-            setFavPrev={setFavPrev}
-            isEditing={isEditing}
-            setEditing={setEditing}  />
-    </div>
-</div>
-<div className='favoriteCardTextClosed'>
-    <p>{userData.recipeText}</p>
-</div>
-<div className="saveButtonContainerHidden">
-    <Button action={() => {saveChanges(userData._id);}} title={"Save changes"}/>
-</div>
-</div> */}

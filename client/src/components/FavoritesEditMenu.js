@@ -1,14 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
 function FavoritesEditMenu(props) {
-    // const {objectId, removeFavorite, userData, favPrev, setFavPrev, isEditing, setEditing} = props;
-    const {mode, setMode, favoriteActive, setFavoriteActive} = props;
+    const {id, mode, setMode, setFavoriteActive, removeFavorite, setEditsMade} = props;
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
-    // const element = document.getElementById(objectId);
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -29,6 +27,12 @@ function FavoritesEditMenu(props) {
         setMode("defaultMode");
         setFavoriteActive(null);
 
+    }
+
+    const handleRemoveFavorite = () => {
+        removeFavorite(id);
+        setEditsMade(true);
+        setFavoriteActive(null);
     }
 
     return (
@@ -65,7 +69,13 @@ function FavoritesEditMenu(props) {
                     }
                 }>
                 {editLabel}
-                
+            </MenuItem>
+            <MenuItem onClick={
+                    () => {
+                        handleRemoveFavorite(); handleClose();
+                    }
+                }>
+                {"Remove favorite"}
             </MenuItem>
         </Menu>
         </div>

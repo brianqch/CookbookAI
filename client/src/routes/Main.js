@@ -1,27 +1,16 @@
-import React, { useEffect, useState, createRef, useRef} from "react";
+import React, { useEffect, useState, useRef} from "react";
 import {CSSTransition} from "react-transition-group";
 import { useAuth0 } from '@auth0/auth0-react';
 import { motion } from "framer-motion/dist/framer-motion";
 import axios from "axios";
-import Button from '@mui/material/Button';
 import "./Main.css";
 
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-
-import LogoutButton from "../components/LogoutButton";
 import CustomButton from "../components/CustomButton";
 import Recipe from "../components/Recipe";
 import SearchBar from "../components/SearchBar";
 import FavoriteCard from "../components/FavoriteCard";
-import Pantry from "../components/Pantry";
 import WelcomePrompt from "../components/WelcomePrompt";
+import SideNav from "../components/SideNav";
 
 function Main() {
     const { user } = useAuth0();
@@ -33,6 +22,8 @@ function Main() {
 
     const [ingredients, setIngredients] = useState({value: ""});
     const [preferences, setPreferences] = useState({value: ""});
+
+    const [pantryItems, setPantryItems] = useState([]);
 
     const nodeRef = useRef(null);
 
@@ -56,8 +47,8 @@ function Main() {
     };
 
     const prefPostBool = (preferences.value.length > 0) ? `Here are some preferences I have for the recipe. ${preferences.value}` : "";
-
-    const prompt = `Create a recipe with step by step instructions using the following ingredients: ${ingredients.value}. ${prefPostBool}`
+    const pantryItemsString = `Here are some optional ingredients in my pantry that you can use:${pantryItems}`;
+    const prompt = `Create a recipe with step by step instructions and accurate measurements using the following ingredients: ${ingredients.value}. ${prefPostBool} ${pantryItemsString}`
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -114,9 +105,24 @@ function Main() {
         });
     }
 
+    // Revtries the list of pantry items for user with UserId and sets pantryItems.
+    const getPantryItemsData = async () => {
+        let pantryArr = [];
+        const res = await axios.get('http://localhost:8000/getPantryItems', {params: { "userId": userId}});
+        for (const pantryObj of res.data) {
+            pantryArr.push(" " + pantryObj.pantryItem)
+        }
+        setPantryItems(pantryArr);
+    };
+
     useEffect(() => {
         loadOrCreateNewUser();
+    }, [])
+
+    useEffect(() => {
         getFavorites();
+        setEditsMade(false);
+        getPantryItemsData();
     }, [editsMade]);
 
     const inputContainer = (
@@ -159,42 +165,6 @@ function Main() {
         </div>
     )
 
-    const [drawerStatus, setDrawerStatus] = useState(false);
-
-    const burgerMenu = (
-        <svg viewBox="0 0 100 80" width="40" height="20" className="burger-menu">
-            <rect width="90" height="15"></rect>
-            <rect y="30" width="90" height="15"></rect>
-            <rect y="60" width="90" height="15"></rect>
-        </svg>
-    )
-
-    const toggleDrawer = (open) => (event) => {
-        if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-          return;
-        }
-    
-        setDrawerStatus(prevDrawerStatus => !prevDrawerStatus);
-      };
-    
-    const anchor = 'right';
-
-    const list =  (
-        <Box
-          sx={{ width: 250 }}
-          role="presentation"
-          onClick={toggleDrawer(false)}
-          onKeyDown={toggleDrawer(false)}
-        >
-          <List>
-            <ListItem>
-                <LogoutButton/>
-            </ListItem>
-          </List>
-        </Box>
-      );
-
-
     const [favoriteActive, setFavoriteActive] = useState(null);
 
     const favoriteCards = (
@@ -224,21 +194,14 @@ function Main() {
                 <path d="M0 0L2250 0L2250 1861.01C2250 1861.01 1905.5 1632.02 1125 1861.01C344.5 2090 1.3448e-05 1861.01 1.3448e-05 1861.01L0 0Z" fill="url(#paint0_linear_65_399)"/>
                 <defs>
                 <linearGradient id="paint0_linear_65_399" x1="100vh" y1="0" x2="100vw" y2="100vw" gradientUnits="userSpaceOnUse">
-                    <stop stop-color="#FFF3D3"/>
-                    <stop offset="1" stop-color="white" stop-opacity="0"/>
+                    <stop stopColor="#FFF3D3"/>
+                    <stop offset="1" stopColor="white" stopOpacity="0"/>
                 </linearGradient>
                 </defs>
             </svg>
             <header className="header-container">
-                <h2 className="header-title">Cookbook.ai</h2> 
-                <Button onClick={toggleDrawer(true)}>{burgerMenu}</Button>
-                <Drawer
-                    anchor={'right'}
-                    open={drawerStatus}
-                    onClose={toggleDrawer(false)}
-                >   
-                    {list}
-                </Drawer>
+                <h2 className="header-title" onClick={event =>  window.location.href='/home'}>Cookbook.ai</h2> 
+                <SideNav/>
             </header>
             <div className="main-container">
             <WelcomePrompt isFinishedLoading={isFinishedLoading} user={user}/>
@@ -268,9 +231,6 @@ function Main() {
                         </section>
                 </section>
             </div>
-
-
-
         </motion.div>
         )
         
@@ -278,51 +238,3 @@ function Main() {
 }
 
 export default Main;
-
-{/* <div className="header"><h1>Cookbook.ai</h1> <LogoutButton/></div>
-                <div className="main-top">
-                    <div className="inputOutputContainer">
-                        <div className={isFinishedLoading ? "hideInputContainer" : "showInputContainer"}>
-                            <div id="inputHeading1">
-                                <h2>What are we making today, {user.name.split(" ")[0]}?</h2>
-                            </div>
-                            <div className="inputSection">
-                                <div id="mainIngredientsInputContainer">
-                                    <div id="headingAndButtonContainer">
-                                        <label id="inputHeading2"> Main Ingredients </label>
-                                    </div>
-                                    <textarea id="mainIngredientsTextInput" name='ingredients' placeholder='ex. linguine, shrimp' ref={ingredientsRef} onChange={inputsHandler} value={ingredients.value}/>
-                                </div>
-                            </div>
-
-                            <div id="submitButton">
-                                <div className={isLoadingRecipe ? "loadingSymbol" : "notLoading"}>
-                                    <p>Generating...</p>
-                                </div>
-                                <Button action={handleSubmit} title={"-->"}/>
-                            </div>
-                        </div>
-                        <div className={isFinishedLoading ? "showRecipeContainer" : "hideRecipeContainer"}>
-                            <Recipe res={response} userData={userData} setUserData={setUserData} setFinishedLoading={setFinishedLoading}/>
-                        </div>
-                    </div> 
-                    <Pantry/>
-                </div>
-
-                <div>
-                    <div className="favoritesContainer">
-                        <h2>Favorites</h2>
-                        <SearchBar/>
-                        {userData.map(userData =>         
-                            <FavoriteCard 
-                                key={userData._id}
-                                userData={userData}
-                                removeFavorite={removeFavorite}
-                                favPrev={favPrev}
-                                setFavPrev={setFavPrev}
-                                Button={Button}
-                            />
-                            
-                        )}
-                    </div>
-                </div> */}

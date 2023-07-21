@@ -60,11 +60,25 @@ const FavoriteSchema = new mongoose.Schema({
     }
 });
 
+const PantryItemSchema = new mongoose.Schema({
+    userId: {
+        type: String,
+        required: true,
+    },
+    pantryItem: {
+        type: String,
+        required: true,
+    }
+})
+
 const User = mongoose.model('Users', UserSchema);
 User.createIndexes();
 
 const Favorite = mongoose.model('Favorites', FavoriteSchema);
 Favorite.createIndexes();
+
+const PantryItem = mongoose.model('PantryItem', PantryItemSchema);
+PantryItem.createIndexes();
 
 app.post("/loadOrCreateUser", async (req, res) => {
     try {
@@ -89,6 +103,7 @@ app.post("/loadOrCreateUser", async (req, res) => {
     }
 });
 
+// Favorites Section
 app.post("/createFavorite", async (req, res) => {
     try {
         const newFavorite = new Favorite(req.body);
@@ -145,6 +160,42 @@ app.put("/saveEdits", async (req, res) => {
     }
 })
 
+// Pantry Item Section
+app.get("/getPantryItems", async (req, res) => {
+    try {
+        const user = await PantryItem.find({"userId": req.query.userId});
+        res.send(user);
+    } catch(e) {
+        console.error(e);
+    }
+});
+
+app.post("/createPantryItem", async (req, res) => {
+    try {
+        const newPantryItem = new PantryItem(req.body);
+        let result = await newPantryItem.save();
+        result = result.toObject();
+        if (result) {
+            res.send(req.body);
+            console.log("New pantry item added");
+        }
+    } catch (e) {
+        res.send("Unable to add new pantry item.");
+        console.log(e);
+    }
+})
+
+app.delete("/deletePantryItem", async (req, res) => {
+    console.log(req.body);
+    try {
+        const result = await PantryItem.deleteOne({"_id": req.body});
+        res.send(result);
+    } catch (e) {
+        res.send("Unable to delete pantryItem.");
+        console.log(e);
+    }
+});
+
 
 // Open AI API Section
 
@@ -161,19 +212,19 @@ const loremIpmsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n
 // Endpoint for Chat GPT
 app.post("/chat", async (req, res) => {
 
-    // const { prompt } = req.body;
+    const { prompt } = req.body;
 
-    // console.log(req.body);
+    console.log(req.body);
 
-    // const completion = await openai.createCompletion({
-    //     model: "text-davinci-003",
-    //     max_tokens: 512,
-    //     temperature: 0,
-    //     prompt: prompt,
-    // });
+    const completion = await openai.createCompletion({
+        model: "text-davinci-003",
+        max_tokens: 512,
+        temperature: 0,
+        prompt: prompt,
+    });
 
-    // console.log(completion.data.choices[0].text);
+    console.log(completion.data.choices[0].text);
 
-    // res.send(completion.data.choices[0].text);
-    res.send(loremIpmsum);
+    res.send(completion.data.choices[0].text);
+    // res.send(loremIpmsum);
 })

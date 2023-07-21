@@ -5,7 +5,7 @@ import "./Landing.css";
 
 
 function Landing() {
-    const { loginWithRedirect, isAuthenticated } = useAuth0();
+    const { loginWithRedirect } = useAuth0();
     return (
         <motion.div
         className="container text-center  bg-black"
@@ -18,8 +18,8 @@ function Landing() {
                 <path d="M0 0L2250 0L2250 1861.01C2250 1861.01 1905.5 1632.02 1125 1861.01C344.5 2090 1.3448e-05 1861.01 1.3448e-05 1861.01L0 0Z" fill="url(#paint0_linear_65_399)"/>
                 <defs>
                 <linearGradient id="paint0_linear_65_399" x1="100vh" y1="0" x2="100vw" y2="100vw" gradientUnits="userSpaceOnUse">
-                    <stop stop-color="#FFF3D3"/>
-                    <stop offset="1" stop-color="white" stop-opacity="0"/>
+                    <stop stopColor="#FFF3D3"/>
+                    <stop offset="1" stopColor="white" stopOpacity="0"/>
                 </linearGradient>
                 </defs>
             </svg>
