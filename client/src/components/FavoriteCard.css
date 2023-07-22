@@ -77,105 +77,85 @@
     margin-bottom: 1rem;
 }
 
-
-/* .favoriteCard {
-    margin: 1rem 0rem;
-    background-color: #FFF9F8;
-    flex-shrink: 0;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    border-radius: 20px;
-    padding: 1rem 4rem;
-    align-items: center;
-    border: 1px solid transparent;
-    transition: border 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+@media only screen and (max-width: 600px) {
+    .favorite-card-outer-container {
+        width: 100%;
+        flex-grow: 1;
+    }
+    
+    .favorite-card {
+        box-sizing: border-box;
+        display: flex;
+        margin: 1rem 1rem 0rem 0rem;
+        padding-top: 1rem;
+        padding-left: 1rem;
+        padding-bottom: 2rem;
+        padding-right: 1rem;
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+        background-color: white;
+        border-radius: 20px;
+        flex-direction: column;
+        flex-grow: 1;
+    }
+    
+    .favorite-card-active {
+        grid-row: 1;
+        box-sizing: border-box;
+        display: flex;
+        margin: 1rem 1rem 0rem 0rem;
+        padding-top: 1rem;
+        padding-left: 1rem;
+        padding-bottom: 2rem;
+        padding-right: 1rem;
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+        background-color: white;
+        border-radius: 20px;
+        flex-direction: column;
+    }
+    
+    .favorite-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-grow: 1;
+        color: #F39A59;
+    
+        font-family: 'Inter', sans-serif;
+    }
+    
+    .favorite-card-details {
+        margin-top: 1rem;
+        font-family: 'Inter', sans-serif;
+        white-space: pre-wrap;
+    }
+    
+    .favorite-card-open-mode-box {
+        border: 1px solid transparent;
+    }
+    
+    .favorite-card-open-mode-box#open-recipe-title {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
+    .favorite-card-open-mode-box#open-recipe-text{
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
+    .favorite-card-edit-mode-box {
+        border: 1px solid #F39A59;
+        border-radius: 20px;
+    }
+    
+    .favorite-card-edit-mode-box#user-edited-recipe-title {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+    
+    .favorite-card-edit-mode-box#user-edited-recipe-text {
+        padding-left: 2rem;
+        padding-right: 2rem;
+        margin-bottom: 1rem;
+    }
 }
-
-.favoriteCard:hover {
-    border: 1px solid rgba(0, 0, 0, 0.25);
-    transition: border 1s cubic-bezier(0.075, 0.82, 0.165, 1);
-}
-
-
-.favoriteCard #favoriteCardHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-}
-
-.favoriteCard .editHeadingBox {
-    border: 1px solid #ddd;
-    border-radius: 20px;
-    padding: 1rem 1rem;
-    font-family: 'Inter';
-    font-weight: 700;
-    text-shadow: -0.3px 0.3px, 0.3px 0.3px, 0.3px 0.3px;
-    font-size: larger;
-    letter-spacing:1px;
-    height: fit-content;
-    width: 80%;
-    background-color: white;
-}
-
-.favoriteCard .editRecipeTextBox {
-    margin-top: 1rem;
-    white-space: pre-wrap;
-    width: 100%;
-    font-family: 'Inter';
-    font-size: 16px;
-    resize: none;
-    overflow: hidden;
-    padding: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 20px;
-    box-sizing: border-box;
-}
-
-.favoriteCard h3 {
-    font-family: 'Inter';
-    font-weight: 700;
-    text-shadow: -0.3px 0.3px, 0.3px 0.3px, 0.3px 0.3px;
-    letter-spacing:1px;
-}
-
-.favoriteCardTextOpen {
-    font-family: 'Inter';
-    white-space: pre-wrap;
-}
-
-.favoriteCardTextClosed {
-    display: none;
-}
-
-.favoriteCard #favoriteCardDateAndMenu {
-    display: flex;
-    align-items: center;
-}
-
-.favoriteCard #dateCreatedLabel {
-    font-family: 'Inter';
-    margin-right: 1rem;
-    opacity: 50%;
-}
-
-.showRecipeContainer {
-    transition: max-height 1.5s cubic-bezier(.17,.67,1,1.23);
-    max-height: 150vh;
-    overflow: hidden;
-    padding-bottom: 1rem;
-}
-
-.hideRecipeContainer {
-    max-height: 0;
-    overflow: hidden;
-}
-
-.saveButtonContainerHidden {
-    display: none;
-}
-
-.saveButtonContainerShown {
-    display: flex;
-    margin-top: 1rem;
-    justify-content: flex-end;
-} */

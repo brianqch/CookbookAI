@@ -2,3 +2,10 @@
     background-color: white;
     width: 20rem;
 }
+
+@media only screen and (max-width: 600px) {
+    .input-area#favoritesSearchInput {
+        background-color: white;
+        width: 15rem;
+    }
+}

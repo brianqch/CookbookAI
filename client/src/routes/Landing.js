@@ -3,7 +3,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { motion } from "framer-motion/dist/framer-motion";
 import "./Landing.css";
 
-
+// Landing component that contains the landing page for the app. Sets up user authentication.
 function Landing() {
     const { loginWithRedirect } = useAuth0();
     return (
@@ -36,7 +36,27 @@ function Landing() {
                 <span className="landing-food-container-outline"></span>
             </section>
             <section className="landing-how-section">
-
+                <div className="landing-how-image-text">
+                    <img className="landing-how-image" src="/assets/its_simple_img.png" alt="main input image"></img>
+                    <div className="how-right-heading-caption-container">
+                        <h2 className="landing-how-heading">It's simple.</h2>
+                        <p className="landing-how-caption">Just put in your ingredients and time you have to cook.</p>
+                    </div>
+                </div>
+                <div className="landing-how-text-image">
+                    <div className="how-left-heading-caption-container">
+                        <h2 className="landing-how-heading">It's fast.</h2>
+                        <p className="landing-how-caption">Have recipes ready in less than one minute with the power of AI.</p>
+                    </div>
+                    <img className="landing-how-image" src="/assets/its_fast_img.png" alt="Image here"></img>
+                </div>
+                <div className="landing-how-image-text">
+                    <img className="landing-how-image" src="/assets/its_personal_img.png" alt="Image here"></img>
+                    <div className="how-right-heading-caption-container">
+                        <h2 className="landing-how-heading">It's personal.</h2>
+                        <p className="landing-how-caption">Keep track of past recipes and access your favorites easily.</p>
+                    </div>
+                </div>
             </section>
 
         </motion.div>

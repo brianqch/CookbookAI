@@ -12,6 +12,7 @@ import FavoriteCard from "../components/FavoriteCard";
 import WelcomePrompt from "../components/WelcomePrompt";
 import SideNav from "../components/SideNav";
 
+// Main component that contains user's input and output section and favorites section. Handles functionality for OpenAI API and MongoDB HTTP requests.
 function Main() {
     const { user } = useAuth0();
     const userId = user.sub;
@@ -22,8 +23,9 @@ function Main() {
 
     const [ingredients, setIngredients] = useState({value: ""});
     const [preferences, setPreferences] = useState({value: ""});
-
     const [pantryItems, setPantryItems] = useState([]);
+
+    const [favoriteActive, setFavoriteActive] = useState(null);
 
     const nodeRef = useRef(null);
 
@@ -32,6 +34,7 @@ function Main() {
     const [isLoadingRecipe, setLoadingRecipe] = useState(false);
     const [isFinishedLoading, setFinishedLoading] = useState(false);
     
+    // Handles user's inputs in the input section and sets appropriate useStates.
     const inputsHandler = (e) =>{
         var text = e.target.innerText;
         text.split(/\n/gm)
@@ -46,10 +49,13 @@ function Main() {
         }   
     };
 
+    // Prompt Handling.
     const prefPostBool = (preferences.value.length > 0) ? `Here are some preferences I have for the recipe. ${preferences.value}` : "";
     const pantryItemsString = `Here are some optional ingredients in my pantry that you can use:${pantryItems}`;
     const prompt = `Create a recipe with step by step instructions and accurate measurements using the following ingredients: ${ingredients.value}. ${prefPostBool} ${pantryItemsString}`
 
+
+    // Submits the prompts to back end OpenAI API and handles any necesary useStates for loading and animations.
     const handleSubmit = (e) => {
         e.preventDefault();
         
@@ -115,28 +121,22 @@ function Main() {
         setPantryItems(pantryArr);
     };
 
+    // Loads or creates a new user upon first render.
     useEffect(() => {
         loadOrCreateNewUser();
     }, [])
 
+    // Loads user's favorites and pantry items.
     useEffect(() => {
         getFavorites();
         setEditsMade(false);
         getPantryItemsData();
     }, [editsMade]);
 
+    // Div container for user input.
     const inputContainer = (
             <div className="input-container">
                 <label className="input-label">Main Ingredients</label>
-                {/* <textarea 
-                    className="input-area" 
-                    id="mainIngredientsTextInput" 
-                    name='ingredients' 
-                    placeholder='ex. catfish, fish sauce' 
-                    ref={ingredientsRef} 
-                    onChange={inputsHandler} 
-                    value={ingredients.value}
-                /> */}
                 <div 
                     className="input-area" 
                     id="mainIngredientsTextInput"
@@ -153,19 +153,17 @@ function Main() {
                     data-placeholder="I want it pan-fried and done in under 30 minutes"
                     onInput={inputsHandler}
                 >
-                    
                 </div>
                 <button className="input-button" onClick={handleSubmit}> Submit </button>
             </div>
     );
 
+    // Div container for user output.
     const outputContainer = (
         <div className="recipe-wrapper" id="outputContainer">
             <Recipe res={response} userData={userData} setUserData={setUserData} setFinishedLoading={setFinishedLoading}/>
         </div>
     )
-
-    const [favoriteActive, setFavoriteActive] = useState(null);
 
     const favoriteCards = (
         userData.map(userData =>         
@@ -190,7 +188,7 @@ function Main() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="200vh" viewBox="0 0 100% 200vh" fill="none" className="background-svg" preserveAspectRatio="none">
+            <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="200vh" viewBox="0 0 1000 5000" fill="none" className="background-svg" preserveAspectRatio="none">
                 <path d="M0 0L2250 0L2250 1861.01C2250 1861.01 1905.5 1632.02 1125 1861.01C344.5 2090 1.3448e-05 1861.01 1.3448e-05 1861.01L0 0Z" fill="url(#paint0_linear_65_399)"/>
                 <defs>
                 <linearGradient id="paint0_linear_65_399" x1="100vh" y1="0" x2="100vw" y2="100vw" gradientUnits="userSpaceOnUse">

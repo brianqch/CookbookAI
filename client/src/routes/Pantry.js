@@ -7,6 +7,7 @@ import "./Pantry.css"
 import PantryItem from "../components/PantryItem";
 import SideNav from "../components/SideNav";
 
+// Pantry component that contains pantry input and exisiting pantry items. Handles functionality for MongoDB pantryItem HTTP requests.
 function Pantry() {
     const { user } = useAuth0();
     const userId = user.sub;
@@ -15,23 +16,26 @@ function Pantry() {
     const [textInput, setTextInput] = useState("")
     const [pantryItemsOnly, setPantryItemsOnly] = useState([]);
 
+    // Handles event of user pressing add item button when inputting pantry items.
     const handleButtonClick = (e) => {
         console.log(textInput);
         addPantryItemToDB(textInput);
     }
 
+    // Handles event of user pressing enter when inputting pantry items.
     function handleEnter(event) {
         if(event.key === 'Enter') {  
             addPantryItemToDB(textInput)
         }
     }
 
-    // Retrieves the list of pantryItems for user with UserId and sets userData.
+    // Retrieves the list of pantry items data for user with UserId and sets pantryList.
     const getPantryItemsData = async () => {
         const res = await axios.get('http://localhost:8000/getPantryItems', {params: { "userId": userId}});
         setPantryList(res.data);
     };
 
+    // Retrieves the list of only pantry items from pantryList data and sets pantryItemsOnly
     const getPantryItemsOnly = () => {
         let pantryArr = [];
         for (const pantryObj of pantryList) {
@@ -40,6 +44,7 @@ function Pantry() {
         setPantryItemsOnly(pantryArr);
     }
 
+    // Adds the item(s) to MongoDB database. First checks to see if the item(s) exists. If not, add item(s) to pantryList and DB
     const addPantryItemToDB = async (pantryItems) => {
         let pantryItemsArr = pantryItems.toLowerCase().split(",");
         pantryItemsArr =  pantryItemsArr.map(item => item.trim());
@@ -72,6 +77,7 @@ function Pantry() {
         });
     }
 
+    // Updates display of pantry items whenever pantryList changes.
       useEffect(() => {
         getPantryItemsData();
         getPantryItemsOnly();
@@ -85,7 +91,7 @@ function Pantry() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="200vh" viewBox="0 0 100% 200vh" fill="none" className="background-svg" preserveAspectRatio="none">
+            <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="200vh" viewBox="0 0 1000 5000" fill="none" className="background-svg" preserveAspectRatio="none">
                 <path d="M0 0L2250 0L2250 1861.01C2250 1861.01 1905.5 1632.02 1125 1861.01C344.5 2090 1.3448e-05 1861.01 1.3448e-05 1861.01L0 0Z" fill="url(#paint0_linear_65_399)"/>
                 <defs>
                 <linearGradient id="paint0_linear_65_399" x1="100vh" y1="0" x2="100vw" y2="100vw" gradientUnits="userSpaceOnUse">

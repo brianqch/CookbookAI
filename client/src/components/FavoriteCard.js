@@ -3,11 +3,13 @@ import axios from "axios";
 import FavoritesEditMenu from "./FavoritesEditMenu";
 import "./FavoriteCard.css";
 
+// FavoriteCard component that contains information about recipes that the user has favorited. Handles MongoDB FavoriteCard HTTP requests.
 function FavoriteCard(props) {
     const {userData, id, removeFavorite, favoriteActive, setFavoriteActive, setEditsMade} = props;
 
     const [mode, setMode] = useState("defaultMode");
 
+    // Saves the edits made to this favorite card to DB. Sets editsMade to true to rerender exisiting favorites.
     const saveChanges = async () => {
         const userId = userData._id;
         const editedRecipeTitleContainer = document.getElementById("user-edited-recipe-title");
@@ -33,6 +35,13 @@ function FavoriteCard(props) {
         });
     }
 
+    // Handles user clicking the favoriteCard, setting it to active.
+    const handleClick = () => {
+        setMode(prevMode => prevMode === "openMode" || prevMode === "editMode" ? "defaultMode" : "openMode");
+        setFavoriteActive(favoriteCardOpenMode);
+    }
+
+    // Div container for favoriteCard in openMode.
     const favoriteCardOpenMode = (
         <div className="favorite-card-active" key={userData._id} id={userData._id}>
             <span className="favorite-card-header">
@@ -43,8 +52,9 @@ function FavoriteCard(props) {
                 <div className="favorite-card-open-mode-box" id="open-recipe-text"><p>{userData.recipeText}</p></div>
             </div>
         </div>
-    )
+    );
 
+    // Div container for favoriteCard in editMode.
     const favoriteCardEditMode = (
         <div className="favorite-card-active" key={userData._id} id={userData._id}>
             <span className="favorite-card-header">
@@ -70,22 +80,18 @@ function FavoriteCard(props) {
             </div>
             <button className="input-button" onClick={saveChanges}> Save changes </button>
         </div>
-    )
-
-    const favoriteCardRegMode = (
+    );
+    
+    // Div container for favoriteCard in defaultMode
+    const favoriteCardDefaultMode = (
         <div className="favorite-card" key={userData._id} id={userData._id}>
             <span className="favorite-card-header">
                 <h3>{userData.recipeTitle}</h3>
             </span>
         </div>
-    )
+    );
 
-    const handleClick = () => {
-        setMode(prevMode => prevMode === "openMode" || prevMode === "editMode" ? "defaultMode" : "openMode");
-        setFavoriteActive(favoriteCardOpenMode);
-    }
-
-
+    // Sets appropriate active favoriteCard based on mode.
     useEffect(() => {
         switch(mode) {
             case "editMode":
@@ -99,6 +105,7 @@ function FavoriteCard(props) {
         }
     }, [mode])
 
+    // Sets all other favoriteCards back to defaultMode.
     useEffect(() => {
         if (favoriteActive && favoriteActive.props.id !== id) {
             setMode("defaultMode")
@@ -108,7 +115,7 @@ function FavoriteCard(props) {
 
     return (
         <div className="favorite-card-outer-container" onClick={handleClick}>
-            {favoriteCardRegMode}
+            {favoriteCardDefaultMode}
         </div>
     )
 } 
