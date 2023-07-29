@@ -49,6 +49,16 @@ function Main() {
         }   
     };
 
+    // Handles user's search inputs in the favorite search section.
+    const searchInputsHandler = (e) => {
+        var text = e.target.innerText;
+        text.split(/\n/gm)
+        getFavoritesByIngredient(text);
+        if (text.length === 0) {
+            getFavorites();
+        }
+    }
+
     // Prompt Handling.
     const prefPostBool = (preferences.value.length > 0) ? `Here are some preferences I have for the recipe. ${preferences.value}` : "";
     const pantryItemsString = `Here are some optional ingredients in my pantry that you can use:${pantryItems}`;
@@ -89,6 +99,12 @@ function Main() {
         const res = await axios.get('http://localhost:8000/getFavorites', {params: { "userId": userId}});
         setUserData(res.data);
     };
+
+    // Retrieves the list of favorites for user with UserId and specified ingredients and sets userData.
+    const getFavoritesByIngredient = async (ingredient) => {
+        const res = await axios.get('http://localhost:8000/getFavoritesByIngredient', {params: { "userId": userId, "ingredient": ingredient}});
+        setUserData(res.data);
+    }
 
     // Stores the userId in the database if one does not exist. Else, loads the user's information.
     const loadOrCreateNewUser = async () => {
@@ -220,7 +236,7 @@ function Main() {
             <div className="favorites-container">
                 <section className="favorites-section">
                         <h2 className="favorites-title">Favorites</h2>
-                        <SearchBar/>
+                        <SearchBar searchInputsHandler={searchInputsHandler}/>
                         <section className="favorite-card-column-section">
                             <div className="favorite-card-container">
                                 {favoriteCards}

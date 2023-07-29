@@ -25,7 +25,7 @@ app.listen(8000, () => {
 app.use(express.json());
 app.use(cors());
 
-// Schema for users of app
+// Schema for Users
 const UserSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -37,6 +37,7 @@ const UserSchema = new mongoose.Schema({
     },
 });
 
+// Schema for Favorites
 const FavoriteSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -60,6 +61,7 @@ const FavoriteSchema = new mongoose.Schema({
     }
 });
 
+// Schema for PantryItems
 const PantryItemSchema = new mongoose.Schema({
     userId: {
         type: String,
@@ -80,6 +82,9 @@ Favorite.createIndexes();
 const PantryItem = mongoose.model('PantryItem', PantryItemSchema);
 PantryItem.createIndexes();
 
+// USER SECTION ---------------------------------------------------->
+
+// Loads the user's information or creates a new user with userId.
 app.post("/loadOrCreateUser", async (req, res) => {
     try {
         const user = await User.find({"userId": req.body.userId});
@@ -103,7 +108,9 @@ app.post("/loadOrCreateUser", async (req, res) => {
     }
 });
 
-// Favorites Section
+// FAVORITES SECTION ----------------------------------------------->
+
+// Stores a new favorite in the database with the given information.
 app.post("/createFavorite", async (req, res) => {
     try {
         const newFavorite = new Favorite(req.body);
@@ -120,26 +127,44 @@ app.post("/createFavorite", async (req, res) => {
 
 });
 
+// Retrieves all favorites from database with given userid.
 app.get("/getFavorites", async (req, res) => {
     try {
-        const user = await Favorite.find({"userId": req.query.userId});
-        res.send(user);
+        const favorites = await Favorite.find({"userId": req.query.userId});
+        res.send(favorites);
     } catch(e) {
         console.error(e);
     }
 });
 
+// Deletes the specified favorite with given Id.
 app.delete("/deleteFavorite", async (req, res) => {
     console.log(req.body);
     try {
-        const result = await Favorite.deleteOne({"_id": req.body});
-        res.send(result);
+        const favorites = await Favorite.deleteOne({"_id": req.body});
+        res.send(favorites);
     } catch (e) {
         res.send("Unable to delete favorite.");
         console.log(e);
     }
 });
 
+// Retrieves favorites from database with given userId and ingredients.
+app.get("/getFavoritesByIngredient", async (req, res) => {
+    try {
+        const favorites = await Favorite.find(
+            {"$and": [
+                {"userId": req.query.userId}, 
+                {"recipeText": {$regex: req.query.ingredient, $options: "i"}}
+            ]}
+        )
+        res.send(favorites);
+    } catch (e) {
+        console.error(e);
+    }
+});
+
+// Saves any changes of specified favorite with given Id.
 app.put("/saveEdits", async (req, res) => {
     console.log(req.body);
     try {
@@ -160,7 +185,9 @@ app.put("/saveEdits", async (req, res) => {
     }
 })
 
-// Pantry Item Section
+// PANTRY SECTION -------------------------------------------------->
+
+// Retrieves all the pantry items from database.
 app.get("/getPantryItems", async (req, res) => {
     try {
         const user = await PantryItem.find({"userId": req.query.userId});
@@ -170,6 +197,7 @@ app.get("/getPantryItems", async (req, res) => {
     }
 });
 
+// Stores a new pantry item with the given information.
 app.post("/createPantryItem", async (req, res) => {
     try {
         const newPantryItem = new PantryItem(req.body);
@@ -185,6 +213,7 @@ app.post("/createPantryItem", async (req, res) => {
     }
 })
 
+// Deletes the specified pantry item with Id.
 app.delete("/deletePantryItem", async (req, res) => {
     console.log(req.body);
     try {
@@ -197,7 +226,7 @@ app.delete("/deletePantryItem", async (req, res) => {
 });
 
 
-// Open AI API Section
+// PANTRY SECTION -------------------------------------------------->
 
 const openaiapikey = process.env.OPENAIAPIKEY;
 
@@ -207,9 +236,7 @@ const config = new Configuration({
 
 const openai = new OpenAIApi(config);
 
-const loremIpmsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n Etiam pellentesque eu lacus in bibendum. In tellus enim, ultrices sit amet nisi ac, finibus ullamcorper ex. Fusce facilisis nisi felis, vel pretium libero varius finibus. Mauris ut luctus ante. Cras interdum ipsum felis. Sed accumsan, metus a gravida bibendum, dolor orci ultrices enim, nec pretium nulla massa et velit. Vestibulum hendrerit dui id libero tincidunt vulputate. Nulla facilisi. Maecenas suscipit fermentum lorem, eget porta elit accumsan sed. Sed laoreet massa lorem, in tempus lacus tincidunt in. Praesent elit massa, consequat at mi sit amet, rutrum fermentum nisi. Donec sagittis lectus feugiat elit finibus, ultricies sodales mauris fringilla. Suspendisse viverra dolor ut tortor consectetur, sed tempus sem dictum. Donec rhoncus ex eget erat pulvinar, sit amet blandit enim posuere. \n Suspendisse fringilla nulla nisl, eleifend efficitur libero gravida vitae. Suspendisse potenti. Etiam at tincidunt ex. Donec sit amet quam eu velit tempus varius. Donec auctor eu eros vitae ornare. Cras a eleifend orci. Mauris a eros congue, cursus lorem quis, auctor sapien. Etiam non ex quis nisi consectetur pulvinar quis ac nulla. Sed varius sapien quam, in blandit urna lobortis bibendum. Nulla sit amet eros nec arcu tincidunt iaculis. Sed dictum imperdiet eros. \n Proin ultricies justo at enim iaculis fermentum pulvinar sit amet ex. Vivamus faucibus ultricies volutpat. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. In nisi leo, iaculis nec sem eget, faucibus facilisis erat. Etiam cursus elit ut arcu tempus, nec posuere metus accumsan. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nullam imperdiet placerat massa, ut accumsan tellus consequat ut. Nulla posuere tristique justo et luctus. Suspendisse purus enim, tincidunt et tempus id, placerat sed erat. Integer efficitur mattis interdum. Cras in felis sed enim convallis pellentesque nec sed lorem. Nam quis vulputate arcu. Cras et dapibus tellus. Sed sed sodales arcu. Sed eget magna est. \n Pellentesque eu luctus odio, ut vestibulum arcu. Aliquam erat volutpat. In hac habitasse platea dictumst. Nullam a aliquam nulla, eu auctor ante. Sed ullamcorper euismod ex, nec convallis sem. Quisque ut placerat ligula. Vivamus viverra tincidunt neque sed posuere. Donec lobortis interdum nibh id ultrices. Maecenas nec purus velit. Vestibulum auctor enim arcu, nec bibendum sem luctus eu. Mauris dictum arcu at mi scelerisque ultricies. Nunc bibendum cursus pharetra. Mauris sodales tempus felis eu euismod. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et malesuada lacus, vel tristique leo. Integer tristique sapien non ante consectetur varius. \n Nulla facilisi. Morbi suscipit ante ut euismod rutrum. Duis nisi velit, dictum ac ligula in, viverra pharetra risus. In volutpat purus quis lorem elementum molestie. Suspendisse in justo sit amet ante congue posuere. Nulla eget mauris egestas, volutpat ex vitae, lobortis orci. Suspendisse potenti. Mauris ut elementum elit."
-
-// Endpoint for Chat GPT
+// Takes in the prompt with user's main ingredients, preferences, and pantry items and returns a completed recipe.
 app.post("/chat", async (req, res) => {
 
     const { prompt } = req.body;
@@ -226,5 +253,4 @@ app.post("/chat", async (req, res) => {
     console.log(completion.data.choices[0].text);
 
     res.send(completion.data.choices[0].text);
-    // res.send(loremIpmsum);
 })
