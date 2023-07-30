@@ -89,9 +89,9 @@ Here are some examples of the app!
 ## Features
 
 - Generate a recipe given main ingredients, any preferences, and pantry items.
-- Favorite, edit, save, and search for recipes
-- [ ] Feature 3
-    - [ ] Nested Feature
+- Keep track of your favorite recipes in the Favorites section.
+- Edit and search for your favorite recipes.
+- Add any pantry items you have that can potentially be used in your recipe.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
