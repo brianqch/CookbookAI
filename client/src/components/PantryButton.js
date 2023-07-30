@@ -7,7 +7,7 @@ function PantryButton() {
     }
     return (
         <div className="pantry-button-container" onClick={() => navigateToPantry()}>
-                <img id="pantry-button" src="/assets/pantry_image.png"></img>
+                <img id="pantry-button" src="/assets/pantry_image.png" alt="pantry button"></img>
                 <p>Pantry</p>
         </div>
     )

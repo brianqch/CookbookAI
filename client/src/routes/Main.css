@@ -93,6 +93,12 @@
     color:#E4E4E4;
 }
 
+.loading-area {
+    display: flex;
+    align-items: center;
+    justify-self: end;
+}
+
 .input-button {
     grid-column: 2;
     justify-self: center;

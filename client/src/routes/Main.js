@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef} from "react";
 import {CSSTransition} from "react-transition-group";
 import { useAuth0 } from '@auth0/auth0-react';
 import { motion } from "framer-motion/dist/framer-motion";
+import {Rings, RevolvingDot} from 'react-loader-spinner';
 import axios from "axios";
 import "./Main.css";
 
@@ -40,11 +41,9 @@ function Main() {
         text.split(/\n/gm)
         if (e.target.id === "mainIngredientsTextInput") {
             setIngredients( {value: text} )
-            console.log("These are my ingredients", ingredients);
         }
         if (e.target.id === "preferencesTextInput") {
             setPreferences( {value: text} )
-            console.log("These are my preferences", preferences.value.length)
             
         }   
     };
@@ -171,6 +170,23 @@ function Main() {
                 >
                 </div>
                 <button className="input-button" onClick={handleSubmit}> Submit </button>
+                <div className="loading-area">
+                    {isLoadingRecipe ? 
+                        <RevolvingDot
+                        height="100"
+                        width="100"
+                        radius="10"
+                        color="#F39A59"
+                        secondaryColor=''
+                        ariaLabel="revolving-dot-loading"
+                        wrapperStyle={{}}
+                        wrapperClass=""
+                        visible={true}
+                        />
+                    :
+                        <></>
+                    }
+                </div>
             </div>
     );
 

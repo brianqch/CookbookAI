@@ -35,3 +35,12 @@
     display: flex;
     justify-content: space-between;
 }
+
+@media only screen and (max-width: 600px) {
+    .recipe-container #saveOrGenerateNewSection {
+        margin-top: 2rem;
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+    }
+}

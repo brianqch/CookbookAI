@@ -18,7 +18,6 @@ function Pantry() {
 
     // Handles event of user pressing add item button when inputting pantry items.
     const handleButtonClick = (e) => {
-        console.log(textInput);
         addPantryItemToDB(textInput);
     }
 
@@ -48,17 +47,14 @@ function Pantry() {
     const addPantryItemToDB = async (pantryItems) => {
         let pantryItemsArr = pantryItems.toLowerCase().split(",");
         pantryItemsArr =  pantryItemsArr.map(item => item.trim());
-        console.log(pantryList.values);
         for (const pantryItem of pantryItemsArr) {
             if (!pantryItemsOnly.includes(pantryItem)) {
                 const json = JSON.stringify({userId, pantryItem});
-                console.log(json);
                 await axios.post('http://localhost:8000/createPantryItem', json,
                 {headers: 
                     { "Content-Type": "application/json" }
                 });
             } else {
-                console.log(pantryItem);
                 alert("Item already in pantry");
             }
             setTextInput("");

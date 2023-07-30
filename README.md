@@ -82,6 +82,15 @@ To get a local copy up and running follow these simple example steps.
 
 Here are some examples of the app!
 
+<br/>
+
+![Main page](./docs/mainpage.png)
+![Main page with recipe](./docs/mainpage_recipe.png)
+![Favorites section](./docs/favoritesopen.png)
+![Favorite in edit mode](./docs/favoriteseditmode.png)
+![Side menu open](./docs/sidemenuopen.png)
+![Pantry page](./docs/pantry.png)
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

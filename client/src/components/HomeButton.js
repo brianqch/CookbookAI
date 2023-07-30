@@ -7,7 +7,7 @@ function HomeButton() {
     }
     return (
         <div className="home-button-container" onClick={() => navigateToHome()}>
-                <img id="home-button" src="/assets/homeButton.png"></img>
+                <img id="home-button" src="/assets/homeButton.png" alt="home button"></img>
                 <p>Home</p>
         </div>
     )

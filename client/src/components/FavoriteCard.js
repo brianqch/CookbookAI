@@ -28,7 +28,6 @@ function FavoriteCard(props) {
         .then(
             setMode("openMode"),
             setEditsMade(true),
-            console.log("Saved changes")
         )
         .catch((err) => {
             console.error(err);

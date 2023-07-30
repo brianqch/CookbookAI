@@ -37,7 +37,7 @@ function Landing() {
             </section>
             <section className="landing-how-section">
                 <div className="landing-how-image-text">
-                    <img className="landing-how-image" src="/assets/its_simple_img.png" alt="main input image"></img>
+                    <img className="landing-how-image" src="/assets/its_simple_img.png" alt="main input section"></img>
                     <div className="how-right-heading-caption-container">
                         <h2 className="landing-how-heading">It's simple.</h2>
                         <p className="landing-how-caption">Just put in your ingredients and time you have to cook.</p>
@@ -48,10 +48,10 @@ function Landing() {
                         <h2 className="landing-how-heading">It's fast.</h2>
                         <p className="landing-how-caption">Have recipes ready in less than one minute with the power of AI.</p>
                     </div>
-                    <img className="landing-how-image" src="/assets/its_fast_img.png" alt="Image here"></img>
+                    <img className="landing-how-image" src="/assets/its_fast_img.png" alt="how its done section"></img>
                 </div>
                 <div className="landing-how-image-text">
-                    <img className="landing-how-image" src="/assets/its_personal_img.png" alt="Image here"></img>
+                    <img className="landing-how-image" src="/assets/its_personal_img.png" alt="its personal section"></img>
                     <div className="how-right-heading-caption-container">
                         <h2 className="landing-how-heading">It's personal.</h2>
                         <p className="landing-how-caption">Keep track of past recipes and access your favorites easily.</p>
